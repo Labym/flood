@@ -20,7 +20,30 @@ module.exports = {
                     loader: "babel-loader"
                 }
             },
-            { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+            {test: /\.css$/, use: ['style-loader', 'css-loader']},
+            {
+                test: /\.less$/,
+                use: [{
+                    loader: "style-loader"
+                }, {
+                    loader: "css-loader"
+                }, {
+                    loader: "less-loader",
+                    options: {
+                        javascriptEnabled: true
+                    }
+                }]
+            },
+            {
+                test: /\.(png|jpg|gif|svg$)/,
+                use: [{
+                    loader: 'url-loader',
+                    options:{
+                        limit: 50000,  // 把小于50000 byte的文件打包成Base64的格式写入JS
+                        output: 'images/' // 当大于是使用file-loader将图片打包到images目录下
+                    }
+                }]
+            },
             {
                 test: /\.html$/,
                 use: [
@@ -33,7 +56,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebPackPlugin({
-            template: __dirname +"/src/index.html",
+            template: __dirname + "/src/index.html",
         })
     ]
 };
