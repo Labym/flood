@@ -89,7 +89,8 @@ typings/
 
 # Optional npm cache directory
 .npm
-
+flood-web/dist/**
+flood-web/package-lock.json
 # Optional eslint cache
 .eslintcache
 
