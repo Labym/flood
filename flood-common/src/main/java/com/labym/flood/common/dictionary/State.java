@@ -1,9 +1,11 @@
 package com.labym.flood.common.dictionary;
 
-public enum  UserState {
+public enum State {
     NORMAL,
     ACTIVE,
     INACTIVE,
     DISABLE,
-    LOCK
+    LOCKED,
+    DELETED,
+
 }

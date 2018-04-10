@@ -2,7 +2,7 @@ package com.labym.flood.admin.domain;
 
 import com.labym.flood.common.constant.DBConstants;
 import com.labym.flood.common.dictionary.Gender;
-import com.labym.flood.common.dictionary.UserState;
+import com.labym.flood.common.dictionary.State;
 import com.labym.flood.processor.annotation.DTO;
 import com.labym.flood.processor.annotation.EnableCodeGenerator;
 import lombok.Data;
@@ -29,7 +29,7 @@ public class User {
     private String name;
     private Gender gender;
     private String language;
-    private UserState state;
+    private State state;
     private String password;
     private String slat;
     private ZonedDateTime birthday;

@@ -6,7 +6,7 @@ import com.labym.flood.admin.error.LoginNameAlreadyExistException;
 import com.labym.flood.admin.repository.UserRepository;
 import com.labym.flood.admin.service.UserService;
 import com.labym.flood.common.dictionary.Gender;
-import com.labym.flood.common.dictionary.UserState;
+import com.labym.flood.common.dictionary.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
             throw new LoginNameAlreadyExistException(login);
         }
         User user=new User();
-        user.setState(UserState.INACTIVE);
+        user.setState(State.INACTIVE);
         user.setGender(Gender.UNKNOWN);
         user.setLogin(login);
         user.setPassword(passwordEncoder.encode(password));
