@@ -1,8 +1,14 @@
 import React, {PureComponent} from 'react';
 import {Menu, Icon, Spin, Tag, Dropdown, Avatar, Divider, Tooltip} from 'antd';
 import styles from './index.less';
+import {changeLayoutCollapsed} from '../../actions'
 export default class GloabHeader extends React.Component {
+
+    handleClick (){
+        changeLayoutCollapsed()
+    }
     render() {
+        const {onIncreaseClick} = this.props
         const menu = (
             <Menu className='menu' selectedKeys={[]}>
                 <Menu.Item disabled>
@@ -30,7 +36,7 @@ export default class GloabHeader extends React.Component {
                 <Icon
                     className='trigger'
                     type='menu-unfold'
-
+                    onClick={onIncreaseClick}
                 />
 
             </div>

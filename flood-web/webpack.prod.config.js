@@ -5,6 +5,7 @@ const webpack = require('webpack');
 module.exports = {
     entry: [
         // 配合antd使用的时候一定要在入口里加react-hot-loader,否则热加载会报错，不使用antd的话可以在此处不加
+        // 'react-hot-loader/patch',
         './src/index.js'
     ],
     output: {
@@ -157,16 +158,6 @@ module.exports = {
                     { loader: 'less-loader', options: { javascriptEnabled: true } }
                 ]
             },
-            {
-                test: /\.(png|jpg|gif|svg$)/,
-                use: [{
-                    loader: 'url-loader',
-                    options:{
-                        limit: 50000,  // 把小于50000 byte的文件打包成Base64的格式写入JS
-                        output: 'images/' // 当大于是使用file-loader将图片打包到images目录下
-                    }
-                }]
-            }
             // json免配置，直接可以import并且支持tree-shaking
         ]
     },

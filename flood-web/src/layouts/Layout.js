@@ -4,6 +4,7 @@ import { Layout, Icon, Menu } from 'antd';
 const { Header, Sider, Content } = Layout;
 import './index.css'
 export default class BaseLayout extends React.Component{
+
     constructor(params){
         super(params)
     }
