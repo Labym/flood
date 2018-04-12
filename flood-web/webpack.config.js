@@ -136,10 +136,7 @@ module.exports = {
                 test: /\.(css|scss)$/,
                 use:[
                     'style-loader',
-                    { loader: 'css-loader', options: { importLoaders: 1 } },
-                    // 'css-loader',
-                    'postcss-loader',
-                    'sass-loader'
+                    'css-loader?modules?modules&localIdentName=[local]---[hash:base64:5]'
                 ]
             },
             {
@@ -147,7 +144,7 @@ module.exports = {
                 test: /\.less$/,
                 use:[
                     'style-loader',
-                    'css-loader',
+                    'css-loader?modules=true&localIdentName=[name]__[local]___[hash:base64:5]',
                     'postcss-loader',
                     // 'less-loader'
                     // less3x版本与按需加载报以下错误
