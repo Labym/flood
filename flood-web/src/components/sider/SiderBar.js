@@ -15,7 +15,7 @@ const menus=[
         name:'CA2',
         icon:'user',
         url:'',
-        sub:[
+        subs:[
             {
                 name:'CA2-1',
                 icon:'user',
@@ -36,24 +36,26 @@ function createMenus() {
       return  menus.map((mn)=>{
           const {subs=[]}=mn
           if(subs.length==0){
-              return  <Menu.Item key={mn.name}>
+              return  (<Menu.Item key={mn.name}>
                   <Icon type={mn.icon}/>
                   <span>{mn.name}</span>
-              </Menu.Item>
+              </Menu.Item>)
           }
 
-          return <SubMenu key={mn.name}
-                           title={<span><Icon type={mn.icon}/><span>{mn.name}</span></span>}>
-              {
-                  subs.map((sub)=>{
-                      return <Menu.Item key={sub.name}>
-                          <Icon type={sub.icon}/>
-                          <span>{sub.name}</span>
-                      </Menu.Item>
-                  })
-              }
+          return (
+              <SubMenu key={mn.name}
+                       title={<span><Icon type={mn.icon}/><span>{mn.name}</span></span>}>
+                  {
+                      subs.map((sub)=>{
+                          return <Menu.Item key={sub.name}>
+                              <Icon type={sub.icon}/>
+                              <span>{sub.name}</span>
+                          </Menu.Item>
+                      })
+                  }
 
-          </SubMenu>
+              </SubMenu>
+          )
 
 
       });
@@ -63,7 +65,7 @@ function createMenus() {
 
 class SiderMenu extends React.Component {
     render() {
-        const {collapsed=true}=this.props
+        const {collapsed=false}=this.props
         return (
             <Sider
                 trigger={null}

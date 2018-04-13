@@ -199,7 +199,6 @@ module.exports = {
             filename:'index.html',
             template:'src/index.html',
         }),
-
         // 以下两个配合react-hot-loader实现热加载
         new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin(),

@@ -1,0 +1,10 @@
+{
+  "sendVerifyCode": "Resend verify code after {count} seconds",
+  "resendVerifyCode": "Resend",
+  "page404.message": "Not Found",
+  "page404.return home": "Return To Home",
+  "page500.message": "Server error, please try again.",
+  "login.submit.button":"登录",
+  "login.error.not.valid.email":"请输入正确的Email",
+  "login.error.username.empty":"请输入用户名"
+}
