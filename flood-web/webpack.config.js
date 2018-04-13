@@ -136,7 +136,10 @@ module.exports = {
                 test: /\.(css|scss)$/,
                 use:[
                     'style-loader',
-                    'css-loader?modules?modules&localIdentName=[local]---[hash:base64:5]'
+                    { loader: 'css-loader?modules=true&localIdentName=[name]__[local]___[hash:base64:5]&importLoaders=1!resolve-url-loader', options: { importLoaders: 1 } },
+                    // 'css-loader',
+                    'postcss-loader',
+                    'sass-loader'
                 ]
             },
             {
@@ -144,7 +147,22 @@ module.exports = {
                 test: /\.less$/,
                 use:[
                     'style-loader',
-                    'css-loader?modules=true&localIdentName=[name]__[local]___[hash:base64:5]',
+                    //'css-loader?modules=true&localIdentName=[name]__[local]-[hash:base64:5]',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: true,
+                            localIdentName: '[name]__[local]__[hash:base64:5]',
+                            getLocalIdent: (context, localIdentName, local, options) => {
+                                let Num="";
+                                for(let i=0;i<8;i++)
+                                {
+                                    Num+=Math.floor(Math.random()*10);
+                                }
+                                return local.replace(/([A-Z])/g,"_$1").toLowerCase()+'_'+new Buffer(Num+'').toString('base64')
+                            }
+                        }
+                    },
                     'postcss-loader',
                     // 'less-loader'
                     // less3x版本与按需加载报以下错误
