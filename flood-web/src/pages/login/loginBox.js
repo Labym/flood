@@ -23,8 +23,12 @@ class LoginBoxUI extends React.Component {
         this.props.login(true)
     }
 
+    hasErrors (fieldsError){
+        return Object.keys(fieldsError).some(field => fieldsError[field])
+    }
+
     render() {
-        const {getFieldDecorator} = this.props.form;
+        const {getFieldDecorator,getFieldsError} = this.props.form;
         const {formatMessage} = this.props.intl;
         const FormItem = Form.Item;
         const { rememberMe=false} = this.props
@@ -42,7 +46,7 @@ class LoginBoxUI extends React.Component {
                                 }],
                             })(
                                 <Input prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>} size="large"
-                                       placeholder="Please input email"/>
+                                       placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_USERNAME)}/>
                             )}
                         </Col>
                     </Row>
@@ -61,13 +65,33 @@ class LoginBoxUI extends React.Component {
                             })(
                                 <Input type='password'
                                        prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>} size="large"
-                                       placeholder="Please input password"/>
+                                       placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_PASSWORD)}/>
                             )}
 
                         </Col>
                     </Row>
                 </FormItem>
+                <FormItem>
 
+                    <Row gutter={8}>
+
+                        <Col span={16}>
+
+                            <Input size="large" placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_VALIDATION_CODE)}/>
+
+                        </Col>
+                        <Col span={8}>
+                            <Button
+
+                                className={styles.getCaptcha}
+                                size="large"
+
+                            >
+                                {formatMessage(LoginMessageDefine.LOGIN_PAGE_SEND_VALIDATION_CODE)}
+                            </Button>
+                        </Col>
+                    </Row>
+                </FormItem>
                 <FormItem>
                     <Row gutter={8}>
                         <Col span={24}>
@@ -81,28 +105,10 @@ class LoginBoxUI extends React.Component {
                 <FormItem>
                     <Row gutter={8}>
                         <Col span={24}>
-                            <Button type='primary' size='large' className='w-100'><FormattedMessage
+                            <Button type='primary' size='large' className='w-100' disabled={this.hasErrors(getFieldsError())}><FormattedMessage
                                 id="login.submit.button"
                                 defaultMessage='Login'
                             /> </Button>
-                        </Col>
-                    </Row>
-                </FormItem>
-                <FormItem>
-
-                    <Row gutter={8}>
-                        <Col span={16}>
-                            <Input size="large" placeholder="large size"/>
-                        </Col>
-                        <Col span={8}>
-                            <Button
-
-                                className={styles.getCaptcha}
-                                size="large"
-
-                            >
-                                {'获取验证码'}
-                            </Button>
                         </Col>
                     </Row>
                 </FormItem>
@@ -118,4 +124,5 @@ LoginBoxUI.propTypes={
     login: PropTypes.func.isRequired,
     rememberMe: PropTypes.bool
 }
+
 export default injectIntl(Form.create()(LoginBoxUI))

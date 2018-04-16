@@ -1,6 +1,30 @@
 import {defineMessages} from 'react-intl';
 
 export const LoginMessageDefine = defineMessages({
+
+    TIPS_INPUT_PASSWORD:{
+        id: 'tips.input.password',
+        defaultMessage: 'Please input password!',
+    },
+    TIPS_INPUT_USERNAME:{
+        id: 'tips.input.password',
+        defaultMessage: 'Please input username or email!',
+    },
+
+    TIPS_INPUT_VALIDATION_CODE:{
+        id: 'tips.input.password',
+        defaultMessage: 'Please input validation code!',
+    },
+    LOGIN_PAGE_TITLE:{
+        id: 'login.page.title',
+        defaultMessage: 'Web Admin Login',
+    },
+
+    LOGIN_PAGE_SEND_VALIDATION_CODE:{
+        id: 'login.page.send.validation.code',
+        defaultMessage: 'Send Code',
+    },
+
     REMEMBER_ME: {
         id: 'login.remember.me',
         defaultMessage: 'Remember me',

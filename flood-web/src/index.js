@@ -4,9 +4,10 @@ import 'antd/dist/antd.css';
 import {increaseAction} from  './actions'
 import styles  from './index.less'
 import { Provider,connect  } from 'react-redux'
-import {store} from './reducers'
-import {LoginBox} from './pages/login/container'
+import store from './reducers'
+import Login from './pages/login'
 import { LocaleProvider } from 'antd';
+
 
 import { addLocaleData, IntlProvider } from 'react-intl';
 import '../locales/zh-CN'
@@ -24,7 +25,7 @@ class App extends React.Component {
             <LocaleProvider locale={appLocale.antd}>
                 <IntlProvider locale={appLocale.locale} messages={appLocale.messages}>
                     <Provider store={store}>
-                        <LoginBox />
+                        <Login />
                     </Provider>
 
                 </IntlProvider>

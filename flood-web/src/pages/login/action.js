@@ -7,10 +7,11 @@ export const LOGIN_ACTION = {
     SUCCESS: 'LOGIN_SUCCESS',
     ERROR: 'LOGIN_ERROR'
 }
-
-export const login =test=> {
-    type: 'LOGIN_SUBMIT',
-    test
+export const login =(name) => {
+   return {
+       type: 'LOGIN_SUBMIT',
+       name
+   }
 }
 
 export const loginSuccess = {

@@ -5,7 +5,10 @@ import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 import {LoginMessageDefine} from "../../../locales/message.define";
 import {LoginConfig} from "../../config/FloodConfig";
 import styles from './style.less'
-
+import {connect} from "react-redux";
+import { bindActionCreators } from 'redux'
+import * as LoginActions from "./action";
+import * as loginActions from "./action";
 class LoginBoxUI extends React.Component {
 
     constructor(props, context) {
@@ -20,13 +23,17 @@ class LoginBoxUI extends React.Component {
         console.log("clicked remember me!:"+this.state.rememberMe)
         this.setState({ rememberMe: !this.state.rememberMe });
         let loginDTO= {}
-        this.props.login()
+        //this.props.login('name')
+        console.log(this.props.actions)
+        this.props.actions('name')
+
     }
 
     render() {
 
         const FormItem = Form.Item;
         const { rememberMe=false} = this.props
+        const { dispatch } = this.props;
         return (
             <Form>
                 <FormItem>
@@ -99,8 +106,27 @@ class LoginBoxUI extends React.Component {
 }
 
 LoginBoxUI.propTypes={
-    login: PropTypes.func.isRequired,
-    rememberMe: PropTypes.bool
+    //login: PropTypes.func.isRequired,
+    rememberMe: PropTypes.bool,
 }
-export default LoginBoxUI
+
+function mapStateToProps(state={rememberMe:false}) {
+    console.log('state is:')
+    console.log(state)
+    return {
+
+        rememberMe: state.rememberMe
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(loginActions.login,dispatch)
+    }
+}
+export  const LoginBox1=connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(LoginBoxUI)
+
 //export default injectIntl(Form.create()(LoginBoxUI))

@@ -4,5 +4,30 @@
       "modules": false
     }],
     "react"
+  ],
+  "env": {
+    "development": {
+
+    }
+  },
+  "plugins": [
+
+    //    "transform-decorators-legacy",
+    //
+    //    "transform-object-rest-spread",
+    //    "syntax-dynamic-import",
+    //
+    //    "transform-class-properties",
+
+    ["transform-runtime", {
+      "helpers": false,
+      "polyfill": false,
+      "regenerator": true,
+      "moduleName": "babel-runtime"
+    }],
+    ["import", {
+      "libraryName": "antd",
+      "style": true
+    }]
   ]
 }

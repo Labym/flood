@@ -1,6 +1,7 @@
 import * as LoginActions from "./action";
 import {connect} from "react-redux";
 import LoginBoxUI from './loginBox'
+import {bindActionCreators} from 'redux'
 function mapStateToProps(state={rememberMe:false}) {
     console.log('state is:')
     console.log(state)
@@ -12,7 +13,7 @@ function mapStateToProps(state={rememberMe:false}) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        login: () => dispatch(LoginActions.login)
+        login: bindActionCreators(LoginActions.login,dispatch)
     }
 }
 export  const LoginBox=connect(
