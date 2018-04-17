@@ -22,5 +22,5 @@ public class Resource {
     private String url;
     private String code;
     private ResourceType type;
-    private Map<String,Object> extensions;
+    //private Map<String,Object> extensions;
 }

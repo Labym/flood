@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
       this.userRepository = userRepository;
   }
 
-  @Autowired
+
   private PasswordEncoder passwordEncoder;
 
     @Override
@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
         user.setState(State.INACTIVE);
         user.setGender(Gender.UNKNOWN);
         user.setLogin(login);
-        user.setPassword(passwordEncoder.encode(password));
+        //user.setPassword(passwordEncoder.encode(password));
         user.setBirthday(ZonedDateTime.parse("1997-1-1"));
         return null;
     }

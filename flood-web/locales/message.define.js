@@ -20,6 +20,11 @@ export const LoginMessageDefine = defineMessages({
         defaultMessage: 'Web Admin Login',
     },
 
+    LOGIN_BTN:{
+        id: 'login.button.text',
+        defaultMessage: 'Login',
+    },
+
     LOGIN_PAGE_SEND_VALIDATION_CODE:{
         id: 'login.page.send.validation.code',
         defaultMessage: 'Send Code',

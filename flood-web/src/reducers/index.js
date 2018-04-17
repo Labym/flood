@@ -1,9 +1,9 @@
 import thunk from 'redux-thunk'
 import { createStore,combineReducers,applyMiddleware  } from 'redux'
 import createSagaMiddleware from 'redux-saga'
-import {createLogger} from 'redux-logger'
+import logger  from 'redux-logger'
 import {LoginReducer} from "../pages/login/reducer";
-import {loginFlow} from '../sagas'
+import rootSaga from '../sagas'
 
 function counter(state = { count: 0 }, action) {
     const count = state.count
@@ -18,7 +18,7 @@ function counter(state = { count: 0 }, action) {
 // const rootReducer = combineReducers({
 //     counter,LoginReducer
 // })
-const  store=createStore(LoginReducer,applyMiddleware(sagaMiddleware))
-
+const  store=createStore(LoginReducer,applyMiddleware(sagaMiddleware,logger))
+sagaMiddleware.run(rootSaga)
 export default store
-sagaMiddleware.run(loginFlow)
+

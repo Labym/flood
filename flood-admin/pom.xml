@@ -12,7 +12,10 @@
     <artifactId>flood-admin</artifactId>
 
     <dependencies>
-
+        <dependency>
+            <groupId>com.labym</groupId>
+            <artifactId>flood-starter</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.labym</groupId>
             <artifactId>flood-common</artifactId>
@@ -25,6 +28,16 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
         </dependency>
 
         <dependency>

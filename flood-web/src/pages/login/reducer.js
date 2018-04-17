@@ -4,7 +4,7 @@ export const LoginReducer= (state = {}, action) => {
     console.log('in loginReducer')
     switch (action.type) {
         case 'LOGIN_SUBMIT':
-            console.log('LOGIN_SUBMIT')
+            console.log('LOGIN_SUBMIT:'+action.name)
             return {rememberMe: !state.rememberMe}
         case LOGIN_ACTION.SUCCESS:
             console.log('login success')

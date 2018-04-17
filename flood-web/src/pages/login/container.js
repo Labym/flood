@@ -11,12 +11,7 @@ function mapStateToProps(state={rememberMe:false}) {
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        login: bindActionCreators(LoginActions.login,dispatch)
-    }
-}
 export  const LoginBox=connect(
     mapStateToProps,
-    mapDispatchToProps
+    LoginActions
 )(LoginBoxUI)

@@ -7,10 +7,10 @@ export const LOGIN_ACTION = {
     SUCCESS: 'LOGIN_SUCCESS',
     ERROR: 'LOGIN_ERROR'
 }
-export const login =(name) => {
+export const login =(name,password,captcha,rememberMe=false) => {
    return {
        type: 'LOGIN_SUBMIT',
-       name
+       name,password,captcha,rememberMe
    }
 }
 

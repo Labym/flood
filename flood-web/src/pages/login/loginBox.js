@@ -5,33 +5,45 @@ import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 import {LoginMessageDefine} from "../../../locales/message.define";
 import {LoginConfig} from "../../config/FloodConfig";
 import styles from './style.less'
+import store from '../../reducers'
 
 class LoginBoxUI extends React.Component {
 
     constructor(props, context) {
         super(props, context)
         this.state = {
-            rememberMe: true
+            rememberMe: true,
+            firstInit:true,
         }
         this.handleRememberMeClick = this.handleRememberMeClick.bind(this)
     }
     handleRememberMeClick () {
-        console.log(this)
-        console.log("clicked remember me!:"+this.state.rememberMe)
-        this.setState({ rememberMe: !this.state.rememberMe });
-        let loginDTO= {}
-        this.props.login(true)
+        this.setState({ rememberMe: !this.state.rememberMe })
+        this.props.login(this.props.username,this.props.password,this.props.captcha,this.props.rememberMe)
+    }
+
+    componentDidMount(){
+        this.setState({firstInit:true})
+        console.log('this.state.firstInit)')
+        console.log(this.state.firstInit)
     }
 
     hasErrors (fieldsError){
-        return Object.keys(fieldsError).some(field => fieldsError[field])
+        console.log('fieldsError')
+        console.log(this.state.firstInit)
+        if(this.state.firstInit){
+
+           this.setState({firstInit:false})
+            return true
+        }
+       return Object.keys(fieldsError).some(field => fieldsError[field])
     }
 
     render() {
         const {getFieldDecorator,getFieldsError} = this.props.form;
         const {formatMessage} = this.props.intl;
         const FormItem = Form.Item;
-        const { rememberMe=false} = this.props
+        const { username,password,captcha,rememberMe=false} = this.props
         return (
             <Form>
                 <FormItem>
@@ -46,7 +58,7 @@ class LoginBoxUI extends React.Component {
                                 }],
                             })(
                                 <Input prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>} size="large"
-                                       placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_USERNAME)}/>
+                                       placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_USERNAME)} value={username}/>
                             )}
                         </Col>
                     </Row>
@@ -65,7 +77,7 @@ class LoginBoxUI extends React.Component {
                             })(
                                 <Input type='password'
                                        prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>} size="large"
-                                       placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_PASSWORD)}/>
+                                       placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_PASSWORD)} value={password}/>
                             )}
 
                         </Col>
@@ -77,7 +89,7 @@ class LoginBoxUI extends React.Component {
 
                         <Col span={16}>
 
-                            <Input size="large" placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_VALIDATION_CODE)}/>
+                            <Input size="large" placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_VALIDATION_CODE)} value={captcha}/>
 
                         </Col>
                         <Col span={8}>
@@ -97,7 +109,7 @@ class LoginBoxUI extends React.Component {
                         <Col span={24}>
                             <Checkbox onChange={this.handleRememberMeClick} checked={rememberMe}
                                       size='large'
-                                      className='w-100'>{formatMessage(LoginMessageDefine.REMEMBER_ME)} </Checkbox>
+                                      className='width100'>{formatMessage(LoginMessageDefine.REMEMBER_ME)} </Checkbox>
                         </Col>
                     </Row>
                 </FormItem>
@@ -105,10 +117,7 @@ class LoginBoxUI extends React.Component {
                 <FormItem>
                     <Row gutter={8}>
                         <Col span={24}>
-                            <Button type='primary' size='large' className='w-100' disabled={this.hasErrors(getFieldsError())}><FormattedMessage
-                                id="login.submit.button"
-                                defaultMessage='Login'
-                            /> </Button>
+                            <Button type='primary' size='large' className="width100" disabled={this.hasErrors(getFieldsError())}>{formatMessage(LoginMessageDefine.LOGIN_BTN)}</Button>
                         </Col>
                     </Row>
                 </FormItem>
@@ -122,6 +131,9 @@ class LoginBoxUI extends React.Component {
 LoginBoxUI.propTypes={
     intl: intlShape.isRequired,
     login: PropTypes.func.isRequired,
+    username:PropTypes.string,
+    password:PropTypes.string,
+    captcha:PropTypes.string,
     rememberMe: PropTypes.bool
 }
 
