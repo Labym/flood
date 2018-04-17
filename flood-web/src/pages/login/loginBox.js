@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types'
+import classNames from 'classnames';
 import {Button, Checkbox, Col, Form, Icon, Input, Row} from 'antd'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 import {LoginMessageDefine} from "../../../locales/message.define";
@@ -8,6 +9,8 @@ import styles from './style.less'
 import store from '../../reducers'
 
 class LoginBoxUI extends React.Component {
+
+
 
     constructor(props, context) {
         super(props, context)
@@ -23,33 +26,35 @@ class LoginBoxUI extends React.Component {
     }
 
     componentDidMount(){
-        this.setState({firstInit:true})
-        console.log('this.state.firstInit)')
-        console.log(this.state.firstInit)
+        this.props.form.validateFields();
     }
 
     hasErrors (fieldsError){
-        console.log('fieldsError')
-        console.log(this.state.firstInit)
-        if(this.state.firstInit){
-
-           this.setState({firstInit:false})
-            return true
-        }
        return Object.keys(fieldsError).some(field => fieldsError[field])
     }
 
     render() {
-        const {getFieldDecorator,getFieldsError} = this.props.form;
+        const {getFieldDecorator, getFieldsError, getFieldError, isFieldTouched} = this.props.form;
         const {formatMessage} = this.props.intl;
         const FormItem = Form.Item;
         const { username,password,captcha,rememberMe=false} = this.props
+
+        const userNameError = isFieldTouched('userName') && getFieldError('userName');
+        const passwordError = isFieldTouched('password') && getFieldError('password');
+
+        const inputClassName = classNames(prefixCls, className, {
+            [`${prefixCls}-enter-button`]: !!false,
+            [`${prefixCls}-${size}`]: !!false,
+        });
         return (
             <Form>
-                <FormItem>
+                <FormItem
+                    validateStatus={userNameError ? 'error' : ''}
+                    help={userNameError || ''}
+                >
                     <Row gutter={8}>
                         <Col span={24}>
-                            {getFieldDecorator('email', {
+                            {getFieldDecorator('userName', {
                                 rules: [{
                                     type: 'email', message: formatMessage(LoginMessageDefine.NOT_VALID_EMAIL),
                                 }, {
@@ -63,7 +68,10 @@ class LoginBoxUI extends React.Component {
                         </Col>
                     </Row>
                 </FormItem>
-                <FormItem>
+                <FormItem
+                    validateStatus={passwordError ? 'error' : ''}
+                    help={passwordError || ''}
+                >
                     <Row gutter={8}>
                         <Col span={24}>
 
@@ -87,20 +95,22 @@ class LoginBoxUI extends React.Component {
 
                     <Row gutter={8}>
 
-                        <Col span={16}>
+                        <Col span={24}>
 
-                            <Input size="large" placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_VALIDATION_CODE)} value={captcha}/>
+                            <Input size="large"
+                                   prefixCls={'ant-input'}
+                                   className={inputClassName}
+                                   placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_VALIDATION_CODE)}
+                                   suffix={ <Button
+                                       type="primary"
+                                       className={`ant-input-search-button`}
+                                       size="large"
 
-                        </Col>
-                        <Col span={8}>
-                            <Button
+                                   >
+                                       {formatMessage(LoginMessageDefine.LOGIN_PAGE_SEND_VALIDATION_CODE)}
+                                   </Button>}
+                                   value={captcha}/>
 
-                                className={styles.getCaptcha}
-                                size="large"
-
-                            >
-                                {formatMessage(LoginMessageDefine.LOGIN_PAGE_SEND_VALIDATION_CODE)}
-                            </Button>
                         </Col>
                     </Row>
                 </FormItem>
@@ -136,5 +146,11 @@ LoginBoxUI.propTypes={
     captcha:PropTypes.string,
     rememberMe: PropTypes.bool
 }
+
+LoginBoxUI.defaultProps = {
+    inputPrefixCls: 'ant-input',
+    prefixCls: 'ant-input-search',
+    enterButton: false,
+};
 
 export default injectIntl(Form.create()(LoginBoxUI))
