@@ -1,9 +1,11 @@
 import React from 'react';
-import AppHome from '../pages/index'
-import Login from '../pages/login'
-import {Route} from 'react-router-dom'
 
-export default class PrivateRoute extends React.Component{
+import {Route} from 'react-router-dom'
+import {injectIntl, intlShape} from "react-intl";
+import PropTypes from "prop-types";
+import {Form} from "antd/lib/index";
+
+class PrivateRouteUI extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -14,12 +16,30 @@ export default class PrivateRoute extends React.Component{
 
     componentDidMount() {
 
-        authPromise().then(result => {
-            if(result == true) {
-                this.setState({auth:true, hasAuthed: true});
-            }else {
-                this.setState({auth:false, hasAuthed: true});
-            }
-        })
+        // authPromise().then(result => {
+        //     if(result == true) {
+        //         this.setState({auth:true, hasAuthed: true});
+        //     }else {
+        //         this.setState({auth:false, hasAuthed: true});
+        //     }
+        // })
+    }
+
+    render(){
+        let { authorized }= this.props
+        return(
+            <Route {...rest} render={(props) => (
+                authorized === true
+                    ? <Component {...props} />
+                    : <Redirect to='/login' />
+            )} />
+        )
     }
 }
+
+PrivateRouteUI.propTypes={
+    authorized: PropTypes.bool.isRequired
+}
+
+
+export default PrivateRouteUI
