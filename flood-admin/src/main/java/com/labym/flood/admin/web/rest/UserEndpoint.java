@@ -1,14 +1,15 @@
 package com.labym.flood.admin.web.rest;
 
+import com.labym.flood.admin.service.UserService;
 import com.labym.flood.admin.web.rest.vm.ErrorVM;
 import com.labym.flood.admin.web.rest.vm.LoginVM;
 import com.labym.flood.admin.web.rest.vm.TokenVM;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import  org.springframework.web.bind.annotation.RestController;
-import com.labym.flood.admin.service.UserService;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
@@ -21,7 +22,7 @@ public class UserEndpoint {
       this.userService = userService;
   }
 
-  @PostMapping(path = "login")
+  @PostMapping(path = "/login",consumes={MediaType.APPLICATION_JSON_UTF8_VALUE})
   public ResponseEntity login(@RequestBody LoginVM vm){
       if("test@a.com".equals(vm.getUsername())&&"123456".equals(vm.getPassword())&&"8888".equals(vm.getCaptcha())){
           TokenVM tokenVM=new TokenVM();

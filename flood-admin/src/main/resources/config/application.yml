@@ -55,14 +55,9 @@ spring:
     thymeleaf:
         mode: XHTML
 
-security:
-    basic:
-        enabled: false
-
 server:
     session:
         cookie:
-            http-only: true
     port: 9090
 
 
@@ -72,34 +67,14 @@ server:
 # Full reference is available at: https://jhipster.github.io/common-application-properties/
 # ===================================================================
 
-jhipster:
-    async:
-        core-pool-size: 2
-        max-pool-size: 50
-        queue-capacity: 10000
-    # By default CORS is disabled. Uncomment to enable.
-    #cors:
-        #allowed-origins: "*"
-        #allowed-methods: GET, PUT, POST, DELETE, OPTIONS
-        #allowed-headers: "*"
-        #exposed-headers:
-        #allow-credentials: true
-        #max-age: 1800
-    mail:
-        from: uaa@localhost
-    swagger:
-        default-include-pattern: /api/.*
-        title: uaa API
-        description: uaa API documentation
-        version: 0.0.1
-        terms-of-service-url:
-        contact-name:
-        contact-url:
-        contact-email:
-        license:
-        license-url:
-    ribbon:
-        display-on-active-profiles: dev
+flood:
+    cors:
+        allowed-origins: "*"
+        allowed-methods: GET, PUT, POST, DELETE, OPTIONS
+        allowed-headers: "*"
+        exposed-headers:
+        allow-credentials: true
+        max-age: 1800
 
 # ===================================================================
 # Application specific properties

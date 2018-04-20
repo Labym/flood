@@ -1,15 +1,20 @@
 import axios from 'axios'
 
 
-export function login(username, password, captcha, rememberMe = false) {
-    return axios({
-        method: 'post',
-        url: '/login',
-        data: {
-            username: username,
-            password: password,
-            captcha: captcha,
-            rememberMe: rememberMe
+
+export function login(loginVM) {
+    return axios.post('/login',
+        loginVM
+    ,{
+        headers: {
+              'Content-Type': 'application/json'
         }
+    }).then((response)=>{
+        console.log('login success catched')
+        console.log(response)
+       return {success:true}
+    },(x)=>{
+        console.log('login error catched')
+        return {success:false}
     })
 }

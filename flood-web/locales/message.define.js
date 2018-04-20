@@ -20,11 +20,15 @@ export const LoginMessageDefine = defineMessages({
         defaultMessage: 'Web Admin Login',
     },
 
-    LOGIN_BTN:{
-        id: 'login.button.text',
-        defaultMessage: 'Login',
+    SIGN_IN_BTN:{
+        id: 'sign.in.button.text',
+        defaultMessage: 'Sign in',
     },
 
+    SIGNING_IN_BTN:{
+        id: 'signing.in.button.text',
+        defaultMessage: 'Signing in',
+    },
     LOGIN_PAGE_SEND_VALIDATION_CODE:{
         id: 'login.page.send.validation.code',
         defaultMessage: 'Send Code',
@@ -49,6 +53,13 @@ export const LoginMessageDefine = defineMessages({
     NOT_VALID_PASSWORD: {
         id: 'login.error.not.valid.password',
         defaultMessage: 'not a valid password.',
+    },
+    NOT_VALID_CAPTCHA:{
+        id: 'login.error.not.valid.captcha',
+        defaultMessage: 'not a valid captcha.',
+    }, CAPTCHA_REQUIRED: {
+        id: 'login.error.captcha.empty',
+        defaultMessage: 'captcha is required.',
     },
 
 });

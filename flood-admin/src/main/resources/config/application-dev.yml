@@ -14,6 +14,7 @@
 # ===================================================================
 
 spring:
+    security.
     profiles:
         active: dev
         include: swagger
@@ -60,12 +61,17 @@ spring:
         cache-seconds: 1
     thymeleaf:
         cache: false
+
     zipkin: # Use the "zipkin" Maven profile to have the Spring Cloud Zipkin dependencies
         base-url: http://localhost:9411
         enabled: false
         locator:
             discovery:
                 enabled: true
+
+
+management.endpoints.web.cors.allowed-origins: *
+management.endpoints.web.cors.allowed-methods: GET,POST,PUT,DELETE
 
 liquibase:
     contexts: dev
@@ -96,7 +102,7 @@ server:
 # Full reference is available at: https://jhipster.github.io/common-application-properties/
 # ===================================================================
 
-jhipster:
+flood:
     http:
         version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
     cache: # Cache configuration

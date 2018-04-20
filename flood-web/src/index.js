@@ -10,6 +10,7 @@ import AppRoutes from './routes'
 
 import {addLocaleData, IntlProvider} from 'react-intl';
 import '../locales/zh-CN'
+import './config/AxiosConfig'
 
 
 addLocaleData(window.appLocale.data);

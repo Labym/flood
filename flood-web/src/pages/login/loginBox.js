@@ -16,36 +16,60 @@ class LoginBoxUI extends React.Component {
         super(props, context)
         this.state = {
             rememberMe: true,
-            firstInit:true,
+            sendCode:this.props.intl.formatMessage(LoginMessageDefine.LOGIN_PAGE_SEND_VALIDATION_CODE),
+            btnSendCodeDisabled:false,
+            signing:this.props.signing,
+            username:undefined,
+            password:undefined
         }
-        this.handleRememberMeClick = this.handleRememberMeClick.bind(this)
+        this.handleSign = this.handleSign.bind(this)
+        this.handleSendValidationCode=this.handleSendValidationCode.bind(this)
     }
-    handleRememberMeClick () {
-        this.setState({ rememberMe: !this.state.rememberMe })
-        this.props.login(this.props.username,this.props.password,this.props.captcha,this.props.rememberMe)
+    handleSign () {
+        this.props.form.validateFields({ force: true }, (err, values) => {
+            this.props.login(values)
+        });
+        // this.setState({ rememberMe: !this.state.rememberMe })
+        // this.props.login(this.state.username,this.state.password,this.props.captcha,this.props.rememberMe)
     }
 
     componentDidMount(){
         this.props.form.validateFields();
     }
 
-    hasErrors (fieldsError){
+    disableSignButton (fieldsError){
+        if(this.props.signing){
+            return true
+        }
        return Object.keys(fieldsError).some(field => fieldsError[field])
+    }
+
+    handleSendValidationCode(){
+        let txt=this.props.intl.formatMessage(LoginMessageDefine.LOGIN_PAGE_SEND_VALIDATION_CODE)
+        const self=this
+        let timeOut=20;
+        this.setState({btnSendCodeDisabled:true})
+        self.setState({sendCode:txt+'('+(timeOut--)+')'})
+        var updateValidationCodeTxtTimer=setInterval(()=>{
+            self.setState({sendCode:txt+'('+(--timeOut)+')'})
+            if(timeOut<=0){
+                self.setState({btnSendCodeDisabled:false})
+                self.setState({sendCode:txt})
+                clearInterval(updateValidationCodeTxtTimer)
+            }
+        },1000)
     }
 
     render() {
         const {getFieldDecorator, getFieldsError, getFieldError, isFieldTouched} = this.props.form;
         const {formatMessage} = this.props.intl;
         const FormItem = Form.Item;
-        const { username,password,captcha,rememberMe=false} = this.props
+        const Search =Input.Search
+        const { username,password,captcha,rememberMe=false,signing=false} = this.props
 
-        const userNameError = isFieldTouched('userName') && getFieldError('userName');
+        const userNameError = isFieldTouched('username') && getFieldError('username');
         const passwordError = isFieldTouched('password') && getFieldError('password');
-
-        const inputClassName = classNames(prefixCls, className, {
-            [`${prefixCls}-enter-button`]: !!false,
-            [`${prefixCls}-${size}`]: !!false,
-        });
+        const captchaError = isFieldTouched('captcha') && getFieldError('captcha');
         return (
             <Form>
                 <FormItem
@@ -54,7 +78,7 @@ class LoginBoxUI extends React.Component {
                 >
                     <Row gutter={8}>
                         <Col span={24}>
-                            {getFieldDecorator('userName', {
+                            {getFieldDecorator('username', {
                                 rules: [{
                                     type: 'email', message: formatMessage(LoginMessageDefine.NOT_VALID_EMAIL),
                                 }, {
@@ -63,7 +87,7 @@ class LoginBoxUI extends React.Component {
                                 }],
                             })(
                                 <Input prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>} size="large"
-                                       placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_USERNAME)} value={username}/>
+                                       placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_USERNAME)} />
                             )}
                         </Col>
                     </Row>
@@ -78,42 +102,55 @@ class LoginBoxUI extends React.Component {
                             {getFieldDecorator('password', {
                                 rules: [{
                                     pattern: LoginConfig.passwordPattern,
-                                    message: formatMessage(LoginMessageDefine.PASSWORD_REQUIRED_ERROR),
+                                    message: formatMessage(LoginMessageDefine.NOT_VALID_PASSWORD),
                                 }, {
-                                    required: true, message: formatMessage(LoginMessageDefine.NOT_VALID_PASSWORD),
+                                    required: true, message: formatMessage(LoginMessageDefine.PASSWORD_REQUIRED_ERROR),
                                 }],
                             })(
                                 <Input type='password'
                                        prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>} size="large"
-                                       placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_PASSWORD)} value={password}/>
+                                       placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_PASSWORD)} value={this.state.password}/>
                             )}
 
                         </Col>
                     </Row>
                 </FormItem>
-                <FormItem>
+                <FormItem
+                    validateStatus={captchaError ? 'error' : ''}
+                    help={captchaError || ''}
+                >
 
                     <Row gutter={8}>
 
                         <Col span={24}>
-
+                            {getFieldDecorator('captcha', {
+                                rules: [{
+                                    len: 4,
+                                    message: formatMessage(LoginMessageDefine.NOT_VALID_CAPTCHA),
+                                }, {
+                                    required: true, message: formatMessage(LoginMessageDefine.CAPTCHA_REQUIRED),
+                                }],
+                            })(
                             <Input size="large"
-                                   prefixCls={'ant-input'}
-                                   className={inputClassName}
+                                   className='ant-input-search ant-input-search-enter-button'
                                    placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_VALIDATION_CODE)}
                                    suffix={ <Button
+                                       disabled={this.state.btnSendCodeDisabled}
                                        type="primary"
                                        className={`ant-input-search-button`}
                                        size="large"
+                                       onClick={this.handleSendValidationCode}
 
                                    >
-                                       {formatMessage(LoginMessageDefine.LOGIN_PAGE_SEND_VALIDATION_CODE)}
+                                       {this.state.sendCode}
                                    </Button>}
                                    value={captcha}/>
+                            )}
 
                         </Col>
                     </Row>
                 </FormItem>
+
                 <FormItem>
                     <Row gutter={8}>
                         <Col span={24}>
@@ -127,7 +164,12 @@ class LoginBoxUI extends React.Component {
                 <FormItem>
                     <Row gutter={8}>
                         <Col span={24}>
-                            <Button type='primary' size='large' className="width100" disabled={this.hasErrors(getFieldsError())}>{formatMessage(LoginMessageDefine.LOGIN_BTN)}</Button>
+                            <Button type='primary' size='large'
+                                    className="width100"
+                                    disabled={this.disableSignButton(getFieldsError())}
+                                    onClick={this.handleSign}
+
+                            >{signing?formatMessage(LoginMessageDefine.SIGNING_IN_BTN):formatMessage(LoginMessageDefine.SIGN_IN_BTN)}</Button>
                         </Col>
                     </Row>
                 </FormItem>
@@ -141,16 +183,11 @@ class LoginBoxUI extends React.Component {
 LoginBoxUI.propTypes={
     intl: intlShape.isRequired,
     login: PropTypes.func.isRequired,
-    username:PropTypes.string,
-    password:PropTypes.string,
-    captcha:PropTypes.string,
-    rememberMe: PropTypes.bool
+    username:PropTypes.string.isRequired,
+    password:PropTypes.string.isRequired,
+    captcha:PropTypes.string.isRequired,
+    rememberMe: PropTypes.bool.isRequired
 }
 
-LoginBoxUI.defaultProps = {
-    inputPrefixCls: 'ant-input',
-    prefixCls: 'ant-input-search',
-    enterButton: false,
-};
 
 export default injectIntl(Form.create()(LoginBoxUI))

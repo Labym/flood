@@ -7,8 +7,6 @@ import com.labym.flood.admin.repository.UserRepository;
 import com.labym.flood.admin.service.UserService;
 import com.labym.flood.common.dictionary.Gender;
 import com.labym.flood.common.dictionary.State;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -22,7 +20,7 @@ public class UserServiceImpl implements UserService {
   }
 
 
-  private PasswordEncoder passwordEncoder;
+//  private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDTO register(String login, String password) {
