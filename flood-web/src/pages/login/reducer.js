@@ -2,7 +2,7 @@ import {LOGIN_ACTION} from "./action";
 import Immutable from "immutable";
 import { message } from 'antd';
 const initialState = Immutable.fromJS({
-    authorized: false,
+    authorized: sessionStorage.getItem("authorized")?sessionStorage.getItem("authorized"):false,
     signing: false
 })
 
@@ -18,7 +18,7 @@ export const LoginReducer = (state = initialState, action) => {
         case LOGIN_ACTION.SUCCESS:
             console.log('login success')
             message.success('login success', 10)
-            sessionStorage.setItem("login",true)
+            sessionStorage.setItem("authorized",true)
             return state.merge({
                 authorized: true,
             })

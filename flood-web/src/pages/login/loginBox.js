@@ -62,14 +62,14 @@ class LoginBoxUI extends React.Component {
         const {formatMessage} = this.props.intl;
         const FormItem = Form.Item;
         const Search = Input.Search
-        const {haAuthorized, captcha, rememberMe = false, signing = false} = this.props
+        const {hasAuthorized, captcha, rememberMe = false, signing = false} = this.props
 
         const userNameError = isFieldTouched('username') && getFieldError('username');
         const passwordError = isFieldTouched('password') && getFieldError('password');
         const captchaError = isFieldTouched('captcha') && getFieldError('captcha');
 
 
-        return ((haAuthorized)? <Redirect to="/" />:
+        return ((hasAuthorized)? <Redirect to="/" />:
 
             <Form>
                 <FormItem
@@ -194,7 +194,7 @@ class LoginBoxUI extends React.Component {
 LoginBoxUI.propTypes = {
     intl: intlShape.isRequired,
     login: PropTypes.func.isRequired,
-    haAuthorized: PropTypes.bool
+    hasAuthorized: PropTypes.bool.isRequired
 }
 
 

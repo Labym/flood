@@ -1,13 +1,12 @@
 import * as LoginActions from "./action";
 import {connect} from "react-redux";
 import LoginBoxUI from './loginBox'
-import {bindActionCreators} from 'redux'
 function mapStateToProps(state) {
-    const {LoginReducer,RouteReducer}=state
-    const {authorized}=RouteReducer.toJS()
+    const {LoginReducer}=state
+    const {authorized}=LoginReducer.toJS()
     const {signing}=LoginReducer.toJS()
     return {
-        haAuthorized:authorized,
+        hasAuthorized:authorized,
         signing:signing
     }
 }

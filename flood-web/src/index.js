@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import styles from './index.less'
 import {Provider} from 'react-redux'
-import {store,history} from './reducers'
+import {store} from './reducers'
 import {LocaleProvider} from 'antd';
 import {BrowserRouter} from 'react-router-dom'
 import AppRoutes from './routes'
@@ -27,7 +27,7 @@ class App extends React.Component {
             <LocaleProvider locale={appLocale.antd}>
                 <IntlProvider locale={appLocale.locale} messages={appLocale.messages}>
                     <Provider store={store}>
-                        <BrowserRouter  history={history}>
+                        <BrowserRouter >
                             <AppRoutes/>
                         </BrowserRouter >
                     </Provider>
