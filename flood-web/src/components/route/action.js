@@ -3,10 +3,8 @@ export const ROUTE_ACTION = {
     AUTHORIZED: 'COMMON_AUTHORIZED',
     UNAUTHORIZED: 'COMMON_UNAUTHORIZED',
 }
-export const authorized =() => {
-    return {
+export const authorized ={
         type: ROUTE_ACTION.AUTHORIZED
-    }
 }
 
 

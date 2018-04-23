@@ -1,6 +1,7 @@
 import { take, put,takeEvery ,call } from 'redux-saga/effects'
 import {login} from '../../api/UserApi'
 import * as LoginActions from './action'
+import * as RouteActions from '../../components/route/action'
 
 export function* loginFlow(action) {
     console.log('saga in login flow')
@@ -12,17 +13,13 @@ export function* loginFlow(action) {
         console.log(result)
         if(result.success){
             yield put(LoginActions.loginSuccess)
+            yield put(RouteActions.authorized)
         }else {
             yield put(LoginActions.loginError)
         }
     } catch (error) {
         yield put(LoginActions.loginError)
     }
-
-
-    let login1 = login(action.name,action.password,action.captcha,action.rememberMe);
-    console.log(login1)
-
 }
 
 export function* watchIncrementAsync() {

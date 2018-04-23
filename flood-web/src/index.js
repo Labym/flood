@@ -3,17 +3,21 @@ import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import styles from './index.less'
 import {Provider} from 'react-redux'
-import store from './reducers'
+import {store,history} from './reducers'
 import {LocaleProvider} from 'antd';
 import {BrowserRouter} from 'react-router-dom'
 import AppRoutes from './routes'
-
+import {
+    ConnectedRouter
+} from 'react-router-redux'
 import {addLocaleData, IntlProvider} from 'react-intl';
 import '../locales/zh-CN'
 import './config/AxiosConfig'
 
-
 addLocaleData(window.appLocale.data);
+
+
+
 
 
 class App extends React.Component {
@@ -23,9 +27,9 @@ class App extends React.Component {
             <LocaleProvider locale={appLocale.antd}>
                 <IntlProvider locale={appLocale.locale} messages={appLocale.messages}>
                     <Provider store={store}>
-                        <BrowserRouter forceRefresh={false}>
+                        <BrowserRouter  history={history}>
                             <AppRoutes/>
-                        </BrowserRouter>
+                        </BrowserRouter >
                     </Provider>
 
                 </IntlProvider>

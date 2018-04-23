@@ -1,77 +1,87 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import classNames from 'classnames';
-import {Button, Checkbox, Col, Form, Icon, Input, Row} from 'antd'
-import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
+import {Button, Checkbox, Col, Form, Icon, Input, Row,Alert } from 'antd'
+import {injectIntl, intlShape} from 'react-intl'
 import {LoginMessageDefine} from "../../../locales/message.define";
 import {LoginConfig} from "../../config/FloodConfig";
-import styles from './style.less'
-import store from '../../reducers'
-
+import {Redirect} from 'react-router-dom'
 class LoginBoxUI extends React.Component {
-
 
 
     constructor(props, context) {
         super(props, context)
         this.state = {
             rememberMe: true,
-            sendCode:this.props.intl.formatMessage(LoginMessageDefine.LOGIN_PAGE_SEND_VALIDATION_CODE),
-            btnSendCodeDisabled:false,
-            signing:this.props.signing,
-            username:undefined,
-            password:undefined
+            sendCode: this.props.intl.formatMessage(LoginMessageDefine.LOGIN_PAGE_SEND_VALIDATION_CODE),
+            btnSendCodeDisabled: false,
+            signing: this.props.signing,
+            username: undefined,
+            password: undefined
         }
         this.handleSign = this.handleSign.bind(this)
-        this.handleSendValidationCode=this.handleSendValidationCode.bind(this)
+        this.handleSendValidationCode = this.handleSendValidationCode.bind(this)
     }
-    handleSign () {
-        this.props.form.validateFields({ force: true }, (err, values) => {
+
+    handleSign() {
+        this.props.form.validateFields({force: true}, (err, values) => {
             this.props.login(values)
         });
         // this.setState({ rememberMe: !this.state.rememberMe })
         // this.props.login(this.state.username,this.state.password,this.props.captcha,this.props.rememberMe)
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.form.validateFields();
     }
 
-    disableSignButton (fieldsError){
-        if(this.props.signing){
+    disableSignButton(fieldsError) {
+        if (this.props.signing) {
             return true
         }
-       return Object.keys(fieldsError).some(field => fieldsError[field])
+        return Object.keys(fieldsError).some(field => fieldsError[field])
     }
 
-    handleSendValidationCode(){
-        let txt=this.props.intl.formatMessage(LoginMessageDefine.LOGIN_PAGE_SEND_VALIDATION_CODE)
-        const self=this
-        let timeOut=20;
-        this.setState({btnSendCodeDisabled:true})
-        self.setState({sendCode:txt+'('+(timeOut--)+')'})
-        var updateValidationCodeTxtTimer=setInterval(()=>{
-            self.setState({sendCode:txt+'('+(--timeOut)+')'})
-            if(timeOut<=0){
-                self.setState({btnSendCodeDisabled:false})
-                self.setState({sendCode:txt})
+    handleSendValidationCode() {
+        let txt = this.props.intl.formatMessage(LoginMessageDefine.LOGIN_PAGE_SEND_VALIDATION_CODE)
+        const self = this
+        let timeOut = 20;
+        this.setState({btnSendCodeDisabled: true})
+        self.setState({sendCode: txt + '(' + (timeOut--) + ')'})
+        var updateValidationCodeTxtTimer = setInterval(() => {
+            self.setState({sendCode: txt + '(' + (--timeOut) + ')'})
+            if (timeOut <= 0) {
+                self.setState({btnSendCodeDisabled: false})
+                self.setState({sendCode: txt})
                 clearInterval(updateValidationCodeTxtTimer)
             }
-        },1000)
+        }, 1000)
     }
 
     render() {
         const {getFieldDecorator, getFieldsError, getFieldError, isFieldTouched} = this.props.form;
         const {formatMessage} = this.props.intl;
         const FormItem = Form.Item;
-        const Search =Input.Search
-        const { username,password,captcha,rememberMe=false,signing=false} = this.props
+        const Search = Input.Search
+        const {haAuthorized, captcha, rememberMe = false, signing = false} = this.props
 
         const userNameError = isFieldTouched('username') && getFieldError('username');
         const passwordError = isFieldTouched('password') && getFieldError('password');
         const captchaError = isFieldTouched('captcha') && getFieldError('captcha');
-        return (
+
+
+        return ((haAuthorized)? <Redirect to="/" />:
+
             <Form>
+                <FormItem
+
+                >
+                    <Row gutter={8}>
+                        <Col span={24}>
+                          <Alert display="false" closable='true' message='login error'/>
+                        </Col>
+                    </Row>
+                </FormItem>
+
                 <FormItem
                     validateStatus={userNameError ? 'error' : ''}
                     help={userNameError || ''}
@@ -87,7 +97,7 @@ class LoginBoxUI extends React.Component {
                                 }],
                             })(
                                 <Input prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>} size="large"
-                                       placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_USERNAME)} />
+                                       placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_USERNAME)}/>
                             )}
                         </Col>
                     </Row>
@@ -109,7 +119,8 @@ class LoginBoxUI extends React.Component {
                             })(
                                 <Input type='password'
                                        prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>} size="large"
-                                       placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_PASSWORD)} value={this.state.password}/>
+                                       placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_PASSWORD)}
+                                       value={this.state.password}/>
                             )}
 
                         </Col>
@@ -131,20 +142,20 @@ class LoginBoxUI extends React.Component {
                                     required: true, message: formatMessage(LoginMessageDefine.CAPTCHA_REQUIRED),
                                 }],
                             })(
-                            <Input size="large"
-                                   className='ant-input-search ant-input-search-enter-button'
-                                   placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_VALIDATION_CODE)}
-                                   suffix={ <Button
-                                       disabled={this.state.btnSendCodeDisabled}
-                                       type="primary"
-                                       className={`ant-input-search-button`}
-                                       size="large"
-                                       onClick={this.handleSendValidationCode}
+                                <Input size="large"
+                                       className='ant-input-search ant-input-search-enter-button'
+                                       placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_VALIDATION_CODE)}
+                                       suffix={<Button
+                                           disabled={this.state.btnSendCodeDisabled}
+                                           type="primary"
+                                           className={`ant-input-search-button`}
+                                           size="large"
+                                           onClick={this.handleSendValidationCode}
 
-                                   >
-                                       {this.state.sendCode}
-                                   </Button>}
-                                   value={captcha}/>
+                                       >
+                                           {this.state.sendCode}
+                                       </Button>}
+                                       value={captcha}/>
                             )}
 
                         </Col>
@@ -169,7 +180,7 @@ class LoginBoxUI extends React.Component {
                                     disabled={this.disableSignButton(getFieldsError())}
                                     onClick={this.handleSign}
 
-                            >{signing?formatMessage(LoginMessageDefine.SIGNING_IN_BTN):formatMessage(LoginMessageDefine.SIGN_IN_BTN)}</Button>
+                            >{signing ? formatMessage(LoginMessageDefine.SIGNING_IN_BTN) : formatMessage(LoginMessageDefine.SIGN_IN_BTN)}</Button>
                         </Col>
                     </Row>
                 </FormItem>
@@ -180,13 +191,10 @@ class LoginBoxUI extends React.Component {
     }
 }
 
-LoginBoxUI.propTypes={
+LoginBoxUI.propTypes = {
     intl: intlShape.isRequired,
     login: PropTypes.func.isRequired,
-    username:PropTypes.string.isRequired,
-    password:PropTypes.string.isRequired,
-    captcha:PropTypes.string.isRequired,
-    rememberMe: PropTypes.bool.isRequired
+    haAuthorized: PropTypes.bool
 }
 
 

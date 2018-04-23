@@ -2,13 +2,13 @@ import * as LoginActions from "./action";
 import {connect} from "react-redux";
 import LoginBoxUI from './loginBox'
 import {bindActionCreators} from 'redux'
-function mapStateToProps(state={rememberMe:false,signing:false,username:'123123@aa.com'}) {
+function mapStateToProps(state) {
+    const {LoginReducer,RouteReducer}=state
+    const {authorized}=RouteReducer.toJS()
+    const {signing}=LoginReducer.toJS()
     return {
-
-        rememberMe: state.rememberMe,
-        username:state.username,
-        password:state.password,
-        signing:state.signing
+        haAuthorized:authorized,
+        signing:signing
     }
 }
 
