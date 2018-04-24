@@ -1,8 +1,10 @@
 package com.labym.flood.admin.web.rest;
 
+import com.labym.flood.admin.dto.UserDTO;
 import com.labym.flood.admin.service.UserService;
 import com.labym.flood.admin.web.rest.vm.ErrorVM;
 import com.labym.flood.admin.web.rest.vm.LoginVM;
+import com.labym.flood.admin.web.rest.vm.RegistrationVM;
 import com.labym.flood.admin.web.rest.vm.TokenVM;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,10 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/users")
 public class UserEndpoint {
   private final UserService userService;
 
@@ -36,4 +39,11 @@ public class UserEndpoint {
       return ResponseEntity.badRequest().body(error);
 
   }
+
+    @PostMapping(consumes={MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public ResponseEntity register(@RequestBody RegistrationVM vm){
+        UserDTO user = userService.register(vm.getEmail(), vm.getPassword());
+        return ResponseEntity.created(URI.create("/api/v1/users/"+user.getId())).build();
+
+    }
 }

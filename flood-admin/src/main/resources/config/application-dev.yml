@@ -14,7 +14,6 @@
 # ===================================================================
 
 spring:
-    security.
     profiles:
         active: dev
         include: swagger

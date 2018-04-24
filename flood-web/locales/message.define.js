@@ -7,7 +7,7 @@ export const LoginMessageDefine = defineMessages({
         defaultMessage: 'Please input password!',
     },
     TIPS_INPUT_USERNAME:{
-        id: 'tips.input.password',
+        id: 'tips.input.username',
         defaultMessage: 'Please input username or email!',
     },
 
@@ -29,9 +29,9 @@ export const LoginMessageDefine = defineMessages({
         id: 'signing.in.button.text',
         defaultMessage: 'Signing in',
     },
-    LOGIN_PAGE_SEND_VALIDATION_CODE:{
-        id: 'login.page.send.validation.code',
-        defaultMessage: 'Send Code',
+    GET_CAPTCHA:{
+        id: 'get.captcha',
+        defaultMessage: 'Get Captcha',
     },
 
     REMEMBER_ME: {
@@ -60,6 +60,9 @@ export const LoginMessageDefine = defineMessages({
     }, CAPTCHA_REQUIRED: {
         id: 'login.error.captcha.empty',
         defaultMessage: 'captcha is required.',
+    },    FORGET_PASSWORD: {
+        id: 'forget.password',
+        defaultMessage: 'Forget Password',
     },
 
 });

@@ -60,7 +60,9 @@ server:
         cookie:
     port: 9090
 
-
+security:
+  basic:
+    enabled: false
 # ===================================================================
 # JHipster specific properties
 #

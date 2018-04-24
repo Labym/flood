@@ -42,7 +42,7 @@ module.exports = {
             ".js", ".jsx"
         ],
         alias: {
-            '@comp': path.resolve(__dirname, './src/components'),
+            '@components': path.resolve(__dirname, './src/components'),
             '@pages': path.resolve(__dirname, './src/pages'),
             '@modules': path.resolve(__dirname, './src/modules'),
             '@DB': path.resolve(__dirname, './src/db'),
