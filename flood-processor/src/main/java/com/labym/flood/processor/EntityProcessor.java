@@ -25,6 +25,7 @@ import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
@@ -118,11 +119,16 @@ public class EntityProcessor extends AbstractProcessor {
                         return;
                     }
                     JCTree.JCVariableDecl variable = (JCTree.JCVariableDecl) member;
+                    if (variable.mods.getFlags().contains(Modifier.STATIC)) {
+                        return;
+                    }
                     DTOMapper dtoMapper = variable.sym.getAnnotation(DTOMapper.class);
 
                     Field field = new Field();
                     field.setName(variable.getName().toString());
-                    field.setType(variable.getType().type.toString());
+                    String type=variable.getType().type.tsym.type.toString();
+
+                    field.setType(bestGuess(type));
                     field.setDtoName(field.getName());
 
                     if(null!=dtoMappers){
@@ -191,6 +197,9 @@ public class EntityProcessor extends AbstractProcessor {
             }
             JCTree.JCVariableDecl variable = (JCTree.JCVariableDecl) member;
             SymbolMetadata metadata = variable.sym.getMetadata();
+            if(null==metadata){
+                continue;
+            }
             List<Attribute.Compound> attributes = metadata.getDeclarationAttributes();
             Optional<TypeName> typeName = attributes.stream().findAny().filter((attr) -> {
                 if (null != attr.type && Id.class.getName().equals(attr.type.tsym.getQualifiedName().toString())) {
@@ -206,5 +215,28 @@ public class EntityProcessor extends AbstractProcessor {
             }
         }
         throw new IllegalArgumentException("can't find primary key for class:");
+    }
+
+    private String bestGuess(String type){
+        if ("boolean".equals(type)) {
+            return boolean.class.getTypeName();
+        }
+
+        if("int".equals(type)){
+            return int.class.getTypeName();
+        }
+
+        if("long".equals(type)){
+            return long.class.getTypeName();
+        }
+
+        if("short".equals(type)){
+            return short.class.getTypeName();
+        }
+        if("byte".equals(type)){
+            return byte.class.getTypeName();
+        }
+
+        return type;
     }
 }

@@ -6,27 +6,26 @@ import com.labym.flood.admin.error.LoginNameAlreadyExistException;
 import com.labym.flood.admin.repository.UserRepository;
 import com.labym.flood.admin.service.UserService;
 import com.labym.flood.admin.service.mapper.UserMapper;
-import com.labym.flood.common.dictionary.Gender;
-import com.labym.flood.common.dictionary.State;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.ZonedDateTime;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
-  private UserMapper userMapper;
+  private final UserMapper userMapper;
 
-  public UserServiceImpl(UserRepository userRepository,PasswordEncoder passwordEncoder) {
-      this.userRepository = userRepository;
-      this.passwordEncoder=passwordEncoder;
-  }
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, UserMapper userMapper) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.userMapper = userMapper;
+    }
 
-
-//  private PasswordEncoder passwordEncoder;
+    //  private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDTO register(String login, String password) {
@@ -34,14 +33,14 @@ public class UserServiceImpl implements UserService {
             throw new LoginNameAlreadyExistException(login);
         }
         User user=new User();
-        user.setState(State.INACTIVE);
-        user.setGender(Gender.UNKNOWN);
         user.setLogin(login);
+        user.setSalt(UUID.randomUUID().toString());
+        password=password+user.getSalt();
         user.setPassword(passwordEncoder.encode(password));
-        user.setBirthday(ZonedDateTime.now());
+        user.setActivated(false);
         userRepository.save(user);
 
-        return null;
+        return userMapper.toDto(user);
     }
 
     @Override
@@ -49,4 +48,8 @@ public class UserServiceImpl implements UserService {
         return userRepository.existsUserByLogin(login);
     }
 
+    @Override
+    public Optional<UserDTO> findByLogin(String login) {
+        return userRepository.findUserByLogin(login).map((user -> Optional.of(userMapper.toDto(user)))).orElse(Optional.empty());
+    }
 }

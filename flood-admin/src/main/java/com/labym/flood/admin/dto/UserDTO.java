@@ -1,30 +1,37 @@
 package com.labym.flood.admin.dto;
 
-import com.labym.flood.common.dictionary.Gender;
-import com.labym.flood.common.dictionary.State;
+import java.lang.Boolean;
+import java.lang.Long;
+import java.lang.String;
+import java.time.Instant;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.ZonedDateTime;
-
-@Data
 @Builder
+@Data
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force=true)
 public class UserDTO {
-    private Long id;
 
-    private String login;
+  private Long id;
 
-    private String name;
+  private String login;
 
-    private Gender gender;
+  private String firstName;
 
-    private String language;
+  private String lastName;
 
-    private State state;
+  private String email;
 
-    private ZonedDateTime birthday;
+  private Boolean activated;
+
+  private String langKey;
+
+  private String imageUrl;
+
+  private Instant resetDate;
+
 }
