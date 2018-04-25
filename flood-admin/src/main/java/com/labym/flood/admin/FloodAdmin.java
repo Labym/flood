@@ -9,8 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class FloodAdmin {
     public static void main(String[] args) {
-        SpringApplication application = new SpringApplication();
+        SpringApplication application = new SpringApplication(FloodAdmin.class);
         DefaultProfileUtil.addDefaultProfile(application);
-        SpringApplication.run(FloodAdmin.class);
+        application.run(args);
     }
 }

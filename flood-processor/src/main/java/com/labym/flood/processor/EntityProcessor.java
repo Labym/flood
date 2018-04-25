@@ -1,6 +1,7 @@
 package com.labym.flood.processor;
 
 import com.google.auto.service.AutoService;
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.labym.flood.processor.annotation.DTO;
@@ -58,7 +59,10 @@ public class EntityProcessor extends AbstractProcessor {
         super.init(processingEnv);
         processingEnvironment = ((JavacProcessingEnvironment) processingEnv);
         options = Options.instance(((JavacProcessingEnvironment) processingEnv).getContext());
-        sourcePath = options.get("-sourcepath").replace(";", "");
+        String paths = options.get("-sourcepath");
+        java.util.List<String> strings = Splitter.on(";").splitToList(paths);
+        strings.stream().findFirst().ifPresent((path)->sourcePath=path);
+        //sourcePath = sourcePath.substring(0, sourcePath.indexOf("target"))+"src\\main\\java";
         EntityGenerator.setSource(sourcePath);
         EntityGenerator.setSourcePath(Paths.get(sourcePath));
         typeUtils = processingEnv.getTypeUtils();

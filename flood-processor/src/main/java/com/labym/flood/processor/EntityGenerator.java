@@ -1,10 +1,12 @@
 package com.labym.flood.processor;
 
 import com.google.common.base.CaseFormat;
+import com.google.common.collect.Lists;
 import com.labym.flood.processor.annotation.DTO;
 import com.squareup.javapoet.*;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.mapstruct.Mapper;
 
 import javax.lang.model.element.Modifier;
 import javax.lang.model.type.TypeMirror;
@@ -13,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static java.lang.String.format;
@@ -105,14 +108,17 @@ public class EntityGenerator {
 
         MethodSpec.Builder entityToDTOMethod = buildEntityToDTOMethod(info, dto, entityLow, dtoLow);
         MethodSpec.Builder dtoToEntityMethod = buildDTOToEntityMethod(info, dto, entityLow, dtoLow);
-
+        ParameterizedTypeName supperClass = ParameterizedTypeName.get(Constants.ENTITY_MAPPER_CLASS, dto,info.entityType());
+        AnnotationSpec mapperAnn = AnnotationSpec.builder(Constants.MAPPER_CLASS).addMember("componentModel","$S", "spring").build();
 
         TypeSpec.Builder service =TypeSpec
-                .classBuilder(mapperClassName)
+                .interfaceBuilder(mapperClassName)
                 .addMethod(dtoToEntityMethod.build())
                 .addMethod(entityToDTOMethod.build())
                 .addModifiers(Modifier.PUBLIC)
-                .addAnnotation(Constants.SPRING_SERVICE_CLASS)
+                .addAnnotation(mapperAnn)
+                .addSuperinterface(supperClass)
+                //.addAnnotation(Constants.SPRING_SERVICE_CLASS)
                ;
 
         JavaFile serviceJavaFile = JavaFile
@@ -134,107 +140,113 @@ public class EntityGenerator {
     }
 
     private static MethodSpec.Builder buildEntityToDTOMethod(GeneratorInfo info, ClassName dto, String entityLow, String dtoLow) {
-        CodeBlock.Builder entityTODTOCode = CodeBlock.builder().beginControlFlow("if (null==$L)", entityLow)
-                .add("return null;\n")
-                .endControlFlow()
-                ;
-        DTO dtoAnnotation = info.getDto();
-        int size=(null!=dtoAnnotation.of()&&dtoAnnotation.of().length>=1)?dtoAnnotation.of().length:(info.getFields().size()-dtoAnnotation.exclude().length);
-        if(size>4){
-            entityTODTOCode.add("$T $L = $T.builder()\n", dto, dtoLow, dto);
-        }else{
-            entityTODTOCode.add("$T $L = new $T();\n", dto, dtoLow, dto);
+//        CodeBlock.Builder entityTODTOCode = CodeBlock.builder().beginControlFlow("if (null==$L)", entityLow)
+//                .add("return null;\n")
+//                .endControlFlow()
+//                ;
+//        DTO dtoAnnotation = info.getDto();
+//        int size=(null!=dtoAnnotation.of()&&dtoAnnotation.of().length>=1)?dtoAnnotation.of().length:(info.getFields().size()-dtoAnnotation.exclude().length);
+//        if(size>4){
+//            entityTODTOCode.add("$T $L = $T.builder()\n", dto, dtoLow, dto);
+//        }else{
+//            entityTODTOCode.add("$T $L = new $T();\n", dto, dtoLow, dto);
+//
+//        }
+//
+//        info.getFields().forEach((field -> {
+//            if(dtoAnnotation.of().length>0){
+//                for (String s : dtoAnnotation.of()) {
+//                    if(s.equals(field.getName())){
+//                        String filedNameUpper = CaseFormat.LOWER_CAMEL.converterTo(CaseFormat.UPPER_CAMEL).convert(field.getName());
+//                        String dtoNameUpper = CaseFormat.LOWER_CAMEL.converterTo(CaseFormat.UPPER_CAMEL).convert(field.getDtoName());
+//                        if(size>4){
+//                            entityTODTOCode.add("                .$L($N.get$L())\n", field.getDtoName(), entityLow, filedNameUpper);
+//                        }else{
+//                            entityTODTOCode.add("$L.set$L($N.get$L());\n", dtoLow, dtoNameUpper, entityLow,filedNameUpper);
+//
+//                        }
+//                    }
+//                }
+//
+//                return;
+//            }
+//
+//            for (String s : dtoAnnotation.exclude()) {
+//                if (s.equals(field.getName())) {
+//                    return;
+//                }
+//            }
+//            String filedNameUpper = CaseFormat.LOWER_CAMEL.converterTo(CaseFormat.UPPER_CAMEL).convert(field.getName());
+//            String dtoNameUpper = CaseFormat.LOWER_CAMEL.converterTo(CaseFormat.UPPER_CAMEL).convert(field.getDtoName());
+//            if(size>4){
+//                entityTODTOCode.add("                .$L($N.get$L())\n", field.getDtoName(), entityLow, filedNameUpper);
+//            }else{
+//                entityTODTOCode.add("$L.set$L($N.get$L());\n", dtoLow, dtoNameUpper, entityLow,filedNameUpper);
+//
+//            }
+//        }));
+//
+//        if(size>4){
+//            entityTODTOCode.add("                .build();\n");
+//        }
 
-        }
+            List<AnnotationSpec> mappings= Lists.newArrayList();
+            DTO dtoAnnotation = info.getDto();
+//            for (String s : dtoAnnotation.exclude()) {
+//                AnnotationSpec.Builder mapping = AnnotationSpec.builder(Constants.MAPPING_CLASS).addMember("target", "$S", s)
+//                        .addMember("ignore", "$L", true);
+//                mappings.add(mapping.build());
+//
+//            }
 
-        info.getFields().forEach((field -> {
-            if(dtoAnnotation.of().length>0){
-                for (String s : dtoAnnotation.of()) {
-                    if(s.equals(field.getName())){
-                        String filedNameUpper = CaseFormat.LOWER_CAMEL.converterTo(CaseFormat.UPPER_CAMEL).convert(field.getName());
-                        String dtoNameUpper = CaseFormat.LOWER_CAMEL.converterTo(CaseFormat.UPPER_CAMEL).convert(field.getDtoName());
-                        if(size>4){
-                            entityTODTOCode.add("                .$L($N.get$L())\n", field.getDtoName(), entityLow, filedNameUpper);
-                        }else{
-                            entityTODTOCode.add("$L.set$L($N.get$L());\n", dtoLow, dtoNameUpper, entityLow,filedNameUpper);
-
-                        }
-                    }
-                }
-
-                return;
-            }
-
-            for (String s : dtoAnnotation.exclude()) {
-                if (s.equals(field.getName())) {
-                    return;
-                }
-            }
-            String filedNameUpper = CaseFormat.LOWER_CAMEL.converterTo(CaseFormat.UPPER_CAMEL).convert(field.getName());
-            String dtoNameUpper = CaseFormat.LOWER_CAMEL.converterTo(CaseFormat.UPPER_CAMEL).convert(field.getDtoName());
-            if(size>4){
-                entityTODTOCode.add("                .$L($N.get$L())\n", field.getDtoName(), entityLow, filedNameUpper);
-            }else{
-                entityTODTOCode.add("$L.set$L($N.get$L());\n", dtoLow, dtoNameUpper, entityLow,filedNameUpper);
-
-            }
-        }));
-
-        if(size>4){
-            entityTODTOCode.add("                .build();\n");
-        }
-        entityTODTOCode.add("return $N;\n",dtoLow);
-
-
-        return MethodSpec.methodBuilder(entityLow + "ToDTO")
+        return MethodSpec.methodBuilder("toDto")
                 .addParameter(info.entityType(), entityLow)
-                .returns(dto)
-                .addCode(entityTODTOCode.build())
-                .addModifiers(Modifier.PUBLIC);
+                .addAnnotations(mappings)
+                .returns(dto).addModifiers(Modifier.PUBLIC,Modifier.ABSTRACT)
+                ;
     }
 
     private static MethodSpec.Builder buildDTOToEntityMethod(GeneratorInfo info, ClassName dto, String entityLow, String dtoLow) {
-        CodeBlock.Builder entityTODTOCode = CodeBlock.builder().beginControlFlow("if (null==$L)", dtoLow)
-                .add("return null;\n")
-                .endControlFlow()
-                ;
-        DTO dtoAnnotation = info.getDto();
-        int size=(null!=dtoAnnotation.of()&&dtoAnnotation.of().length>=1)?dtoAnnotation.of().length:(info.getFields().size()-dtoAnnotation.exclude().length);
+//        CodeBlock.Builder entityTODTOCode = CodeBlock.builder().beginControlFlow("if (null==$L)", dtoLow)
+//                .add("return null;\n")
+//                .endControlFlow()
+//                ;
+//        DTO dtoAnnotation = info.getDto();
+//        int size=(null!=dtoAnnotation.of()&&dtoAnnotation.of().length>=1)?dtoAnnotation.of().length:(info.getFields().size()-dtoAnnotation.exclude().length);
+//
+//        entityTODTOCode.add("$T $L = new $T();\n", info.entityType(), entityLow, info.entityType());
+//
+//        info.getFields().forEach((field -> {
+//            if(dtoAnnotation.of().length>0){
+//                for (String s : dtoAnnotation.of()) {
+//                    if(s.equals(field.getName())){
+//                        String filedNameUpper = CaseFormat.LOWER_CAMEL.converterTo(CaseFormat.UPPER_CAMEL).convert(field.getName());
+//                        String dtoNameUpper = CaseFormat.LOWER_CAMEL.converterTo(CaseFormat.UPPER_CAMEL).convert(field.getDtoName());
+//                        entityTODTOCode.add("$N.set$L($N.get$L());\n",entityLow,filedNameUpper,dtoLow,dtoNameUpper);
+//                    }
+//                }
+//
+//                return;
+//            }
+//
+//            for (String s : dtoAnnotation.exclude()) {
+//                if (s.equals(field.getName())) {
+//                    return;
+//                }
+//            }
+//            String filedNameUpper = CaseFormat.LOWER_CAMEL.converterTo(CaseFormat.UPPER_CAMEL).convert(field.getName());
+//            String dtoNameUpper = CaseFormat.LOWER_CAMEL.converterTo(CaseFormat.UPPER_CAMEL).convert(field.getDtoName());
+//            entityTODTOCode.add("$N.set$L($N.get$L());\n",entityLow,filedNameUpper,dtoLow,dtoNameUpper);
+//        }));
+//
+//
+//        entityTODTOCode.add("return $N;\n",entityLow);
 
-        entityTODTOCode.add("$T $L = new $T();\n", info.entityType(), entityLow, info.entityType());
 
-        info.getFields().forEach((field -> {
-            if(dtoAnnotation.of().length>0){
-                for (String s : dtoAnnotation.of()) {
-                    if(s.equals(field.getName())){
-                        String filedNameUpper = CaseFormat.LOWER_CAMEL.converterTo(CaseFormat.UPPER_CAMEL).convert(field.getName());
-                        String dtoNameUpper = CaseFormat.LOWER_CAMEL.converterTo(CaseFormat.UPPER_CAMEL).convert(field.getDtoName());
-                        entityTODTOCode.add("$N.set$L($N.get$L());\n",entityLow,filedNameUpper,dtoLow,dtoNameUpper);
-                    }
-                }
-
-                return;
-            }
-
-            for (String s : dtoAnnotation.exclude()) {
-                if (s.equals(field.getName())) {
-                    return;
-                }
-            }
-            String filedNameUpper = CaseFormat.LOWER_CAMEL.converterTo(CaseFormat.UPPER_CAMEL).convert(field.getName());
-            String dtoNameUpper = CaseFormat.LOWER_CAMEL.converterTo(CaseFormat.UPPER_CAMEL).convert(field.getDtoName());
-            entityTODTOCode.add("$N.set$L($N.get$L());\n",entityLow,filedNameUpper,dtoLow,dtoNameUpper);
-        }));
-
-
-        entityTODTOCode.add("return $N;\n",entityLow);
-
-
-        return MethodSpec.methodBuilder( "dtoTo"+info.getEntityClassName())
+        return MethodSpec.methodBuilder( "toEntity")
                 .addParameter(dto, dtoLow)
-                .returns(info.entityType())
-                .addCode(entityTODTOCode.build())
-                .addModifiers(Modifier.PUBLIC);
+                .returns(info.entityType()).addModifiers(Modifier.PUBLIC,Modifier.ABSTRACT)
+               ;
     }
 
     private static void generateServiceImpl(GeneratorInfo info) {

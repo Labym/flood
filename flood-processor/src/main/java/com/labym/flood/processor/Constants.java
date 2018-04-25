@@ -31,4 +31,13 @@ public class Constants {
     public static final ClassName SPRING_REST_CONTROLLER_CLASS=ClassName.get(" org.springframework.web.bind.annotation","RestController");
 
     public static final ClassName SPRING_REQUESTMAPPING_CLASS=ClassName.get(" org.springframework.web.bind.annotation","RequestMapping");
+
+
+    public static final ClassName MAPPER_CLASS=ClassName.get("org.mapstruct","Mapper");
+
+    public static final ClassName MAPPING_CLASS=ClassName.get("org.mapstruct","Mapping");
+
+    public static final ClassName ENTITY_MAPPER_CLASS=ClassName.get("com.labym.flood.service","EntityMapper");
+
+
 }
