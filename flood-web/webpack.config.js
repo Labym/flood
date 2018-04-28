@@ -147,7 +147,6 @@ module.exports = {
                 test: /\.less$/,
                 use:[
                     'style-loader',
-                    //'css-loader?modules=true&localIdentName=[name]__[local]-[hash:base64:5]',
                     {
                         loader: 'css-loader',
                         options: {

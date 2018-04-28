@@ -6,6 +6,7 @@ import com.labym.flood.admin.error.LoginNameAlreadyExistException;
 import com.labym.flood.admin.repository.UserRepository;
 import com.labym.flood.admin.service.UserService;
 import com.labym.flood.admin.service.mapper.UserMapper;
+import com.labym.flood.common.constant.LangKey;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,16 +29,19 @@ public class UserServiceImpl implements UserService {
     //  private PasswordEncoder passwordEncoder;
 
     @Override
-    public UserDTO register(String login, String password) {
-        if(loginNameExist(login)){
-            throw new LoginNameAlreadyExistException(login);
+    public UserDTO register(String email, String password) {
+        if(loginNameExist(email)){
+            throw new LoginNameAlreadyExistException(email);
         }
         User user=new User();
-        user.setLogin(login);
+        user.setLogin(email);
+        user.setEmail(email);
         user.setSalt(UUID.randomUUID().toString());
         password=password+user.getSalt();
         user.setPassword(passwordEncoder.encode(password));
         user.setActivated(false);
+        user.setActivationKey(UUID.randomUUID().toString());
+        user.setLangKey(LangKey.ZH);
         userRepository.save(user);
 
         return userMapper.toDto(user);

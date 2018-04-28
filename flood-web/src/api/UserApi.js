@@ -3,7 +3,7 @@ import axios from 'axios'
 
 
 export function login(loginVM) {
-    return axios.post('/login',
+    return axios.post('/authenticate',
         loginVM
     ,{
 
@@ -14,5 +14,21 @@ export function login(loginVM) {
     },(x)=>{
         console.log('login error catched')
         return {success:false}
+    })
+}
+
+export function register(registrationVM) {
+    return axios.post('/register',
+        registrationVM
+        ,{
+
+        }).then((response)=>{
+        console.log('register success catched')
+        console.log(response)
+        return {success:true,email:registrationVM.email}
+    },(x)=>{
+        console.log('register error catched')
+        console.log(x)
+        return {success:false,error:''}
     })
 }
