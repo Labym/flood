@@ -16,6 +16,22 @@ public class FloodProperties {
     private final CorsConfiguration cors = new CorsConfiguration();
 
     private final Security security = new Security();
+    private final Async async=new Async();
+    private final Swagger swagger=new Swagger();
+
+
+    @Data
+    public static class Async {
+
+        private int corePoolSize = FloodDefaults.Async.corePoolSize;
+
+        private int maxPoolSize = FloodDefaults.Async.maxPoolSize;
+
+        private int queueCapacity = FloodDefaults.Async.queueCapacity;
+
+    }
+
+
 
     @Data
     public static class Security {
@@ -66,4 +82,35 @@ public class FloodProperties {
 
         }
     }
+
+
+    @Data
+    public static class Swagger {
+
+        private String title = FloodDefaults.Swagger.title;
+
+        private String description = FloodDefaults.Swagger.description;
+
+        private String version = FloodDefaults.Swagger.version;
+
+        private String termsOfServiceUrl = FloodDefaults.Swagger.termsOfServiceUrl;
+
+        private String contactName = FloodDefaults.Swagger.contactName;
+
+        private String contactUrl = FloodDefaults.Swagger.contactUrl;
+
+        private String contactEmail = FloodDefaults.Swagger.contactEmail;
+
+        private String license = FloodDefaults.Swagger.license;
+
+        private String licenseUrl = FloodDefaults.Swagger.licenseUrl;
+
+        private String defaultIncludePattern = FloodDefaults.Swagger.defaultIncludePattern;
+
+        private String host = FloodDefaults.Swagger.host;
+
+        private String[] protocols = FloodDefaults.Swagger.protocols;
+
+    }
+
 }

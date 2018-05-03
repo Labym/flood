@@ -1,4 +1,4 @@
-package com.labym.flood.admin.dto;
+package com.labym.flood.dto;
 
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +11,7 @@ import java.util.Collection;
 @Builder
 public class UserDetailsDTO implements UserDetails {
 
+    private Long id;
     private String password;
     private String username;
     private Collection<? extends GrantedAuthority> authorities;

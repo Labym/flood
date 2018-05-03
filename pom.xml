@@ -23,6 +23,14 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
 
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
+        <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <run.addResources>false</run.addResources>
+
         <sonar.language>java</sonar.language>
         <sonar.host.url>http://127.0.0.1:8082</sonar.host.url>
         <sonar.jacoco.reportPath>${project.testresult.directory}/coverage/jacoco/jacoco-unit.exec
@@ -31,13 +39,20 @@
         </sonar.jacoco.itReportPath>
         <sonar.coverage.exclusions>**/config/**,**/errors/**,**/domain/**</sonar.coverage.exclusions>
         <!-- dependencies version -->
-        <spring.boot.version>2.0.1.RELEASE</spring.boot.version>
+        <h2.version>1.4.197</h2.version>
+        <spring-boot.version>2.0.1.RELEASE</spring-boot.version>
         <hibernate.version>5.2.16.Final</hibernate.version>
         <lombok.version>1.16.20</lombok.version>
         <javapoet.version>1.10.0</javapoet.version>
         <guava.version>22.0</guava.version>
         <jjwt.version>0.9.0</jjwt.version>
+        <javassist.version>3.22.0-GA</javassist.version>
+        <liquibase.version>3.5.5</liquibase.version>
+        <liquibase-hibernate5.version>3.6</liquibase-hibernate5.version>
+        <validation-api.version>2.0.1.Final</validation-api.version>
         <mapstruct.version>1.2.0.Final</mapstruct.version>
+        <mysql.version>5.1.46</mysql.version>
+        <springfox.version>2.8.0</springfox.version>
         <!-- maven plugins version -->
         <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
         <maven-compiler-plugin.version>3.6.0</maven-compiler-plugin.version>
@@ -47,8 +62,28 @@
     <dependencyManagement>
         <dependencies>
 
-            <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
-            <!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-bean-validators</artifactId>
+                <version>${springfox.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${springfox.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.mapstruct</groupId>
+                        <artifactId>mapstruct</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct</artifactId>
@@ -91,10 +126,17 @@
                 <!-- Import dependency management from Spring Boot -->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring.boot.version}</version>
+                <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-java8</artifactId>
+                <version>5.2.16.Final</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>org.projectlombok</groupId>
@@ -116,11 +158,6 @@
                 <version>${javapoet.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.hibernate.javax.persistence</groupId>
-                <artifactId>hibernate-jpa-2.1-api</artifactId>
-                <version>1.0.0.Final</version>
-            </dependency>
 
 
         </dependencies>

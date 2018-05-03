@@ -1,18 +1,14 @@
 package com.labym.flood.admin.service.impl;
 
 import com.google.common.collect.Lists;
-import com.labym.flood.admin.domain.User;
-import com.labym.flood.admin.dto.UserDetailsDTO;
 import com.labym.flood.admin.repository.UserRepository;
-import com.labym.flood.admin.service.UserService;
+import com.labym.flood.dto.UserDetailsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @Component("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
