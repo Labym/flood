@@ -8,6 +8,7 @@ import com.labym.flood.processor.annotation.DTO;
 import com.labym.flood.processor.annotation.DTOMapper;
 import com.labym.flood.processor.annotation.EnableCodeGenerator;
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.sun.source.tree.Tree;
 import com.sun.source.util.TreePath;
@@ -126,9 +127,13 @@ public class EntityProcessor extends AbstractProcessor {
 
                     Field field = new Field();
                     field.setName(variable.getName().toString());
-                    String type=variable.getType().type.tsym.type.toString();
+//                    String type=variable.getType().type.tsym.type.toString();
+                    if (variable.getType().type.isParameterized()) {
+                        field.setType(ParameterizedTypeName.get(variable.getType().type));
+                    }else {
+                        field.setType(ClassName.get(variable.getType().type));
+                    }
 
-                    field.setType(bestGuess(type));
                     field.setDtoName(field.getName());
 
                     if(null!=dtoMappers){

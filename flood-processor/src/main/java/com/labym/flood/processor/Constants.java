@@ -23,6 +23,7 @@ public class Constants {
     public static final ClassName LOMBOK_DATA=ClassName.bestGuess("lombok.Data");
     public static final ClassName LOMBOK_BUILDER=ClassName.bestGuess("lombok.Builder");
     public static final ClassName LOMBOK_NO_ARGS_CONSTRUCTOR=ClassName.bestGuess("lombok.NoArgsConstructor");
+    public static final ClassName LOMBOK_ALL_ARGS_CONSTRUCTOR=ClassName.bestGuess("lombok.AllArgsConstructor");
 
     public static final ClassName SPRING_SERVICE_CLASS=ClassName.get("org.springframework.stereotype","Service");
     public static final ClassName SPRING_JPA_REPOSITORY_CLASS=ClassName.bestGuess("org.springframework.data.jpa.repository.JpaRepository");

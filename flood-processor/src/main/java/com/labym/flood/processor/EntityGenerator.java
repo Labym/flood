@@ -410,14 +410,15 @@ public class EntityGenerator {
         if(size>4){
             dto.addAnnotation(Constants.LOMBOK_BUILDER);
             dto.addAnnotation(Constants.LOMBOK_NO_ARGS_CONSTRUCTOR);
+            dto.addAnnotation(Constants.LOMBOK_ALL_ARGS_CONSTRUCTOR);
         }
 
         info.getFields().forEach((field -> {
             if(dtoAnnotation.of().length>0){
                 for (String s : dtoAnnotation.of()) {
                     if(s.equals(field.getName())){
-                        ClassName type = ClassName.bestGuess(field.getType());
-                        dto.addField(FieldSpec.builder(type,field.getDtoName(),Modifier.PRIVATE).build());
+                        //ClassName type = ClassName.bestGuess(field.getType());
+                        dto.addField(FieldSpec.builder(field.getType(),field.getDtoName(),Modifier.PRIVATE).build());
                     }
                 }
 
@@ -429,8 +430,8 @@ public class EntityGenerator {
                     return;
                 }
             }
-            ClassName type = ClassName.bestGuess(field.getType());
-            dto.addField(FieldSpec.builder(type,field.getDtoName(),Modifier.PRIVATE).build());
+            //ClassName type = ClassName.bestGuess(field.getType());
+            dto.addField(FieldSpec.builder(field.getType(),field.getDtoName(),Modifier.PRIVATE).build());
 
         }));
 
