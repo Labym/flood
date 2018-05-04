@@ -9,7 +9,7 @@ export const LOGIN_ACTION = {
 }
 export const login =(data) => {
    return {
-       type: 'LOGIN_SUBMIT',
+       type: LOGIN_ACTION.LOGIN,
        data
    }
 }

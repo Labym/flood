@@ -20,6 +20,7 @@ export const LoginReducer = (state = initialState, action) => {
             console.log(action)
             message.success('login success', 10)
             sessionStorage.setItem("authorized",true)
+            sessionStorage.setItem("token",action.data.token)
             return state.merge({
                 authorized: true,
             })

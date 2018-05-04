@@ -82,7 +82,7 @@ public class AuthenticationController {
             this.idToken = idToken;
         }
 
-        @JsonProperty("id_token")
+        @JsonProperty("token")
         String getIdToken() {
             return idToken;
         }
