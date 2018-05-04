@@ -15,7 +15,8 @@
 
 logging:
     level:
-        ROOT: DEBUG
+        ROOT: INFO
+        liquibase: DEBUG
         com.labym.flood: DEBUG
         com.labym.flood.admin: DEBUG
 

@@ -10,10 +10,10 @@ export function login(loginVM) {
     }).then((response)=>{
         console.log('login success catched')
         console.log(response)
-       return {success:true}
+       return {success:true,...response.data}
     },(x)=>{
         console.log('login error catched')
-        return {success:false}
+        return {success:false,...x.data}
     })
 }
 

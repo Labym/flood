@@ -1,5 +1,6 @@
 package com.labym.flood.common.util.tree;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -8,9 +9,10 @@ import java.util.List;
 
 @Data
 public class TreeNode<T extends Node<ID>,ID extends Serializable>  {
-    private T value;
+    private T data;
     private List<TreeNode<T,ID>> children;
-    private T parent;
+    @JsonIgnore
+    private TreeNode<T,ID> parent;
 
     public void  add(TreeNode<T,ID> child){
         if(null==children){
@@ -21,7 +23,7 @@ public class TreeNode<T extends Node<ID>,ID extends Serializable>  {
 
 
     public ID id() {
-        return this.value.id();
+        return this.data.id();
     }
 
 
@@ -37,15 +39,15 @@ public class TreeNode<T extends Node<ID>,ID extends Serializable>  {
         return null==parent;
     }
 
-    public TreeNode(T parent, T value){
+    public TreeNode(TreeNode<T,ID> parent, T value){
         this.parent=parent;
-        this.value=value;
+        this.data=value;
     }
 
 
     public String prettyPrint() {
         return "TreeNode{" +
-                "value=" + value +
+                "value=" + data +
                 ", children=" + children +
                 ", parent=" + parent +
                 '}';

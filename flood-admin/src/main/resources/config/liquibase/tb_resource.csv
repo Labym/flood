@@ -1,0 +1,6 @@
+
+1,app.home,2018-05-03 16:53:18,0,null,home,0,MENU,/
+2,app.setting,2018-05-03 16:53:35,0,null,setting,0,MENU,/setting
+3,app.setting.resource,2018-05-03 16:53:52,0,null,setting.resource,2,MENU,/settings/resource
+4,app.setting.organization,2018-05-03 16:54:31,0,null,setting.organization,2,MENU,/settings/organization
+5,app.setting.role,2018-05-03 16:55:29,0,null,setting.role,2,MENU,/settings/role

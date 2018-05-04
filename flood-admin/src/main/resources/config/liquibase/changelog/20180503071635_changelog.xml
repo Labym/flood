@@ -14,8 +14,7 @@
             <column name="type" type="VARCHAR(10)"/>
             <column name="url" type="VARCHAR(1000)"/>
         </createTable>
-    </changeSet>
-    <changeSet author="esvwwxn (generated)" id="1525337214839-2">
+
         <createTable tableName="tb_user">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints primaryKey="true" primaryKeyName="tb_userPK"/>
@@ -37,11 +36,19 @@
             <column name="reset_key" type="VARCHAR(20)"/>
             <column name="salt_hash" type="VARCHAR(255)"/>
         </createTable>
-    </changeSet>
-    <changeSet author="esvwwxn (generated)" id="1525337214839-3">
+
         <addUniqueConstraint columnNames="email" constraintName="UC_TB_USEREMAIL_COL" tableName="tb_user"/>
-    </changeSet>
-    <changeSet author="esvwwxn (generated)" id="1525337214839-4">
+
         <addUniqueConstraint columnNames="login" constraintName="UC_TB_USERLOGIN_COL" tableName="tb_user"/>
+
+        <loadData
+                  file="config/liquibase/tb_user.csv"
+
+                  tableName="tb_user"/>
+
+        <loadData
+                  file="config/liquibase/tb_resource.csv"
+
+                  tableName="tb_resource"/>
     </changeSet>
 </databaseChangeLog>

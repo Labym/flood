@@ -10,9 +10,8 @@ export function* loginFlow(action) {
         console.log(action)
         let result = yield call(login,action.data);
         console.log("login result:")
-        console.log(result)
         if(result.success){
-            yield put(LoginActions.loginSuccess)
+            yield put(LoginActions.loginSuccess(result))
             yield put(RouteActions.authorized)
         }else {
             yield put(LoginActions.loginError)

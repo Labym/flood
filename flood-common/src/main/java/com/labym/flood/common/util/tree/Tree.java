@@ -33,7 +33,7 @@ public class Tree<T extends Node<ID>,ID extends Serializable> {
             return;
         }
         if(parent.id().equals(node.parentId())){
-            TreeNode<T, ID> child = new TreeNode<>(parent.getValue(), node);
+            TreeNode<T, ID> child = new TreeNode<>(parent, node);
             parent.add(child);
             initChildren(child,nodes);
         }

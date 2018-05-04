@@ -14,8 +14,10 @@ export const login =(data) => {
    }
 }
 
-export const loginSuccess = {
-    type: LOGIN_ACTION.SUCCESS
+export const loginSuccess=(data) => {
+    return {
+        type: LOGIN_ACTION.SUCCESS,data
+    }
 }
 
 export const loginError = {

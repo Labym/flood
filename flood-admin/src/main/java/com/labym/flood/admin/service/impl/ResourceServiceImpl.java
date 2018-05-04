@@ -8,6 +8,7 @@ import com.labym.flood.admin.repository.ResourceRepository;
 import com.labym.flood.admin.service.ResourceService;
 import com.labym.flood.admin.service.mapper.ResourceMapper;
 import com.labym.flood.common.dictionary.ResourceType;
+import com.labym.flood.common.util.tree.Tree;
 import com.labym.flood.security.SecurityUtil;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +42,12 @@ public class ResourceServiceImpl implements ResourceService {
         TreeMultiset<Comparable> tree = TreeMultiset.create();
         //TreeMultiset.create()
         return null;
+    }
+
+    @Override
+    public Tree<ResourceDTO, Long> currentUserMenus() {
+        List<Resource> menus = resourceRepository.findByType(ResourceType.MENU);
+        List<ResourceDTO> resourceDTOS = resourceMapper.toDto(menus);
+        return new Tree<>(resourceDTOS);
     }
 }
