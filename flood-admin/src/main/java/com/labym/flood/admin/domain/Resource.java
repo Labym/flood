@@ -13,10 +13,11 @@ import java.time.Instant;
 import java.util.Map;
 
 @DTO
+@EnableCodeGenerator(controller = true)
 @Data
 @Entity
 @Table(name = DBConstants.TABLE_PREFIX+"RESOURCE")
-@EnableCodeGenerator(controller = true)
+
 public class Resource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

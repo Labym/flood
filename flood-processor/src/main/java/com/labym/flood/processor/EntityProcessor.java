@@ -33,6 +33,11 @@ import javax.lang.model.util.Types;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.tools.JavaCompiler;
+import javax.tools.StandardJavaFileManager;
+import javax.tools.StandardLocation;
+import javax.tools.ToolProvider;
+import java.io.File;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.nio.file.Paths;
@@ -54,16 +59,24 @@ public class EntityProcessor extends AbstractProcessor {
     Trees trees;
     JavacProcessingEnvironment processingEnvironment;
     private Options options;
-    private String sourcePath;
+    private String sourcePath="C:\\work-test\\flood-parent\\flood-admin\\src\\main\\java";
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
         processingEnvironment = ((JavacProcessingEnvironment) processingEnv);
-        options = Options.instance(((JavacProcessingEnvironment) processingEnv).getContext());
-        String paths = options.get("-sourcepath");
-        java.util.List<String> strings = Splitter.on(";").splitToList(paths);
-        strings.stream().findFirst().ifPresent((path)->sourcePath=path);
+
+        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        StandardJavaFileManager fm = compiler.getStandardFileManager(null, null, null);
+
+//        Iterable<? extends File> locations = fm.getLocation(StandardLocation.SOURCE_PATH);
+//        locations.forEach(f->{
+//            System.out.println(f.getAbsolutePath());
+//        });
+//        options = Options.instance(((JavacProcessingEnvironment) processingEnv).getContext());
+//        String paths = options.get("-sourcepath");
+//        java.util.List<String> strings = Splitter.on(";").splitToList(paths);
+ //       strings.stream().findFirst().ifPresent((path)->sourcePath=path);
         //sourcePath = sourcePath.substring(0, sourcePath.indexOf("target"))+"src\\main\\java";
         EntityGenerator.setSource(sourcePath);
         EntityGenerator.setSourcePath(Paths.get(sourcePath));

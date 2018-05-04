@@ -1,5 +1,10 @@
 package com.labym.flood.common.util.tree;
 
-public class Node {
+import java.io.Serializable;
 
+public interface Node<ID extends Serializable> {
+
+    ID id();
+    ID parentId();
+    boolean isRoot();
 }

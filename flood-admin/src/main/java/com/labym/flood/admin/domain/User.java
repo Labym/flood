@@ -16,7 +16,6 @@ import javax.validation.constraints.Size;
 import java.time.Instant;
 
 @EnableCodeGenerator(controller = true)
-@Entity
 @DTO(
         exclude = {
                 "password","slat"
@@ -25,6 +24,7 @@ import java.time.Instant;
 @Data
 @ToString(exclude = {"resetKey","password"})
 @Table(name = DBConstants.TABLE_PREFIX+"USER")
+@Entity
 public class User {
 
     private static final long serialVersionUID = 1L;
