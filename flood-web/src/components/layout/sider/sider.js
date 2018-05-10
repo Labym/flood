@@ -3,17 +3,18 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom'
 import { Layout, Menu, Icon,Spin } from 'antd';
 import styles from './index.less'
+import {intlShape} from "react-intl";
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
-export default class SideMenu extends React.Component{
+class SideMenu extends React.Component{
 
     componentDidMount(){
         this.props.loadMenus()
     }
 
     render (){
-        const {logo}=this.props
+        const {logo,menus}=this.props
         return (
             <Sider
                 width={256}
@@ -39,3 +40,9 @@ export default class SideMenu extends React.Component{
         )
     }
 }
+
+SideMenu.propTypes = {
+    menus: PropTypes.object,
+}
+
+export default SideMenu

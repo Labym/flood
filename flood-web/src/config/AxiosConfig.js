@@ -6,7 +6,9 @@ axios.interceptors.request.use(function (config) {
 
     if (sessionStorage.getItem("authorized")) {
         let token = sessionStorage.getItem("token");
-        config.headers['Authorization ']='Bearer '+token
+        config.headers={
+            Authorization:'Bearer '+token
+        }
     }
     console.log('request config:')
     console.log(config)

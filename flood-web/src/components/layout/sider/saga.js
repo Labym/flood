@@ -10,7 +10,7 @@ export function* loadingFlow(action) {
         let result = yield call(menus);
         console.log(result)
         if(result.success){
-            yield put(SiderActions.loadMenusSuccess(result.root))
+            yield put(SiderActions.loadMenusSuccess(result.data))
         }else {
             yield put(SiderActions.loadMenusError)
         }
@@ -20,7 +20,7 @@ export function* loadingFlow(action) {
 }
 
 export function* watchIncrementAsync() {
-    yield takeEvery(SiderActions.LOAD_MENUS,loadingFlow)
+    yield takeEvery(SiderActions.SIDER_ACTION.LOADING,loadingFlow)
 }
 
 export default function* SiderSaga() {
