@@ -32,11 +32,11 @@ export default class GloabHeader extends React.Component {
             avatar:''
         }
         return (
-            <div className='header'>
+            <div className={styles.header}>
                 <Icon
-                    className='trigger'
-                    type='menu-unfold'
-                    onClick={onIncreaseClick}
+                    className={styles.trigger}
+                    type={'menu-fold'}
+
                 />
 
             </div>

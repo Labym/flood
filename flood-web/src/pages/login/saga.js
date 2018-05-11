@@ -4,12 +4,8 @@ import * as LoginActions from './action'
 import * as RouteActions from '../../components/route/action'
 
 export function* loginFlow(action) {
-    console.log('saga in login flow')
-
     try {
-        console.log(action)
         let result = yield call(login,action.data);
-        console.log("login result:")
         if(result.success){
             yield put(LoginActions.loginSuccess(result))
             yield put(RouteActions.authorized)

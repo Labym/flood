@@ -18,6 +18,7 @@ export const SiderReducer = (state = initialState, action) => {
             console.log('loading success')
             return state.merge({
                 menus: expandTree(action.data.root),
+                loading:false
             })
 
 
@@ -42,10 +43,7 @@ const expandTree = (root) => {
         })
     }
     return {
-        name: root.data.name,
-        id: root.data.code,
-        url: root.data.url,
+        ...root.data,
         children: children,
-        root:root.root,
     }
 }

@@ -16,8 +16,6 @@ export const LoginReducer = (state = initialState, action) => {
                 signing: true,
             })
         case LOGIN_ACTION.SUCCESS:
-            console.log('login success')
-            console.log(action)
             message.success('login success', 10)
             sessionStorage.setItem("authorized",true)
             sessionStorage.setItem("token",action.data.token)
