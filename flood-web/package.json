@@ -22,7 +22,7 @@
     "redux-saga": "^0.16.0"
   },
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --port=18080",
     "build": "cross-env NODE_ENV=production webpack --config webpack.prod.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -17,7 +17,6 @@ import java.util.Map;
 @Data
 @Entity
 @Table(name = DBConstants.TABLE_PREFIX+"RESOURCE")
-
 public class Resource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

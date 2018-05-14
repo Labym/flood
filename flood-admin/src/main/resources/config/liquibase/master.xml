@@ -11,6 +11,10 @@
     <property name="datetime" value="datetime" dbms="mysql"/>
     <property name="datetime" value="datetime" dbms="postgresql"/>
 
+    <property name="boolean" value="tinyint(2)" dbms="h2"/>
+    <property name="boolean" value="tinyint(2)" dbms="mysql"/>
+    <property name="boolean" value="tinyint(2)" dbms="postgresql"/>
+
 
     <include file="classpath:config/liquibase/changelog/20180503071635_changelog.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->

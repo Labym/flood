@@ -1,12 +1,16 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom'
+import {NavLink,Link } from 'react-router-dom'
+import {injectIntl, intlShape} from 'react-intl'
 import { Layout, Menu, Icon,Spin } from 'antd';
 import styles from './index.less'
 import {isEmpty} from 'lodash'
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
+
+import {LocalMessageDefine} from "../../../../locales/message.define";
+
 class SideMenu extends React.Component{
 
     componentDidMount(){
@@ -16,6 +20,8 @@ class SideMenu extends React.Component{
 
     render (){
         const {logo,menus}=this.props
+        const {formatMessage} = this.props.intl;
+        console.log(LocalMessageDefine)
         console.log(menus)
         return (
             <Sider
@@ -42,11 +48,13 @@ class SideMenu extends React.Component{
                                         <span>{menu.name}</span>
                                     </Menu.Item>
                                     :
-                                    <SubMenu key={`item_${menu.code}`}  title={<span><Icon type="mail" /><span>Navigation One</span></span>}>
+                                    <SubMenu key={`item_${menu.code}`}  title={<span><Icon type="mail" /><span>{formatMessage(LocalMessageDefine[menu.extensions.language])}</span></span>}>
                                         {
                                             menu.children.map((item)=>(
                                                 <Menu.Item key={`sub_${item.code}`}>
+                                                    <NavLink to={item.url}>
                                                     <span>{item.name}</span>
+                                                    </NavLink>
                                                 </Menu.Item>
                                             ))
                                         }
@@ -61,7 +69,8 @@ class SideMenu extends React.Component{
 }
 
 SideMenu.propTypes = {
+    intl: intlShape.isRequired,
     menus: PropTypes.object,
 }
 
-export default SideMenu
+export default injectIntl(SideMenu)

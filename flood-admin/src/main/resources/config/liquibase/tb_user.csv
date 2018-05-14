@@ -1,2 +1,2 @@
 id,activated,activation_key,email,first_name,image_url,lang_key,last_name,login,password_hash,reset_date,reset_key,salt_hash
-1,false,62165fac-bbef-4853-81c6-9ed18d6bef0b,zhangjingl02@126.com,,,zh,,zhangjingl02@126.com,$2a$10$TAizFQifjyGRrA2ESQa/3e3/Hf/kAMVHRyUa.BqfVTb/G9oS1VdOu,,,1eff8784-5600-405f-b91f-fd785e31dcac
+1,0,62165fac-bbef-4853-81c6-9ed18d6bef0b,zhangjingl02@126.com,,,zh,,zhangjingl02@126.com,$2a$10$TAizFQifjyGRrA2ESQa/3e3/Hf/kAMVHRyUa.BqfVTb/G9oS1VdOu,null,,1eff8784-5600-405f-b91f-fd785e31dcac

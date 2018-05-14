@@ -4,7 +4,7 @@ import {injectIntl, intlShape} from 'react-intl'
 import CenterPage from '../../components/pageBox/centerPage'
 import RegistrationUI from '../../components/registration'
 import styles from './index.less'
-import {LoginMessageDefine} from "../../../locales/message.define";
+import {LocalMessageDefine} from "../../../locales/message.define";
 const FormItem = Form.Item;
 const InputGroup=Input.Group
 class Registration extends React.Component{

@@ -1,6 +1,11 @@
 import {defineMessages} from 'react-intl';
 
-export const LoginMessageDefine = defineMessages({
+export const LocalMessageDefine = defineMessages({
+
+    SETTING:{
+        id: 'setting',
+        defaultMessage: 'setting',
+    },
 
     TIPS_INPUT_PASSWORD:{
         id: 'tips.input.password',

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import {Button, Checkbox, Col, Form, Icon, Input, Row,Alert } from 'antd'
 import {injectIntl, intlShape} from 'react-intl'
-import {LoginMessageDefine} from "../../../locales/message.define";
+import {LocalMessageDefine} from "../../../locales/message.define";
 import {LoginConfig} from "../../config/FloodConfig";
 import {Redirect,Link} from 'react-router-dom'
 import styles from './style.less'
@@ -13,7 +13,7 @@ class LoginBoxUI extends React.Component {
         super(props, context)
         this.state = {
             rememberMe: true,
-            sendCode: this.props.intl.formatMessage(LoginMessageDefine.GET_CAPTCHA),
+            sendCode: this.props.intl.formatMessage(LocalMessageDefine.GET_CAPTCHA),
             btnSendCodeDisabled: false,
             signing: this.props.signing,
             username: undefined,
@@ -43,7 +43,7 @@ class LoginBoxUI extends React.Component {
     }
 
     handleSendValidationCode() {
-        let txt = this.props.intl.formatMessage(LoginMessageDefine.GET_CAPTCHA)
+        let txt = this.props.intl.formatMessage(LocalMessageDefine.GET_CAPTCHA)
         const self = this
         let timeOut = 20;
         this.setState({btnSendCodeDisabled: true})
@@ -81,14 +81,14 @@ class LoginBoxUI extends React.Component {
                         <Col span={24}>
                             {getFieldDecorator('username', {
                                 rules: [{
-                                    type: 'email', message: formatMessage(LoginMessageDefine.NOT_VALID_EMAIL),
+                                    type: 'email', message: formatMessage(LocalMessageDefine.NOT_VALID_EMAIL),
                                 }, {
                                     required: true,
-                                    message: formatMessage(LoginMessageDefine.USER_NAME_REQUIRED_ERROR),
+                                    message: formatMessage(LocalMessageDefine.USER_NAME_REQUIRED_ERROR),
                                 }],
                             })(
                                 <Input prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>} size="large"
-                                       placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_USERNAME)}/>
+                                       placeholder={formatMessage(LocalMessageDefine.TIPS_INPUT_USERNAME)}/>
                             )}
                         </Col>
                     </Row>
@@ -103,14 +103,14 @@ class LoginBoxUI extends React.Component {
                             {getFieldDecorator('password', {
                                 rules: [{
                                     pattern: LoginConfig.passwordPattern,
-                                    message: formatMessage(LoginMessageDefine.NOT_VALID_PASSWORD),
+                                    message: formatMessage(LocalMessageDefine.NOT_VALID_PASSWORD),
                                 }, {
-                                    required: true, message: formatMessage(LoginMessageDefine.PASSWORD_REQUIRED_ERROR),
+                                    required: true, message: formatMessage(LocalMessageDefine.PASSWORD_REQUIRED_ERROR),
                                 }],
                             })(
                                 <Input type='password'
                                        prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>} size="large"
-                                       placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_PASSWORD)}
+                                       placeholder={formatMessage(LocalMessageDefine.TIPS_INPUT_PASSWORD)}
                                        value={this.state.password}/>
                             )}
 
@@ -128,14 +128,14 @@ class LoginBoxUI extends React.Component {
                             {getFieldDecorator('captcha', {
                                 rules: [{
                                     len: 4,
-                                    message: formatMessage(LoginMessageDefine.NOT_VALID_CAPTCHA),
+                                    message: formatMessage(LocalMessageDefine.NOT_VALID_CAPTCHA),
                                 }, {
-                                    required: true, message: formatMessage(LoginMessageDefine.CAPTCHA_REQUIRED),
+                                    required: true, message: formatMessage(LocalMessageDefine.CAPTCHA_REQUIRED),
                                 }],
                             })(
                                 <Input size="large"
                                        className='ant-input-search ant-input-search-enter-button'
-                                       placeholder={formatMessage(LoginMessageDefine.TIPS_INPUT_VALIDATION_CODE)}
+                                       placeholder={formatMessage(LocalMessageDefine.TIPS_INPUT_VALIDATION_CODE)}
                                        suffix={<Button
                                            disabled={this.state.btnSendCodeDisabled}
                                            type="primary"
@@ -158,11 +158,11 @@ class LoginBoxUI extends React.Component {
                         <Col span={12}>
                             <Checkbox onChange={this.handleRememberMeClick} checked={rememberMe}
                                       size='large'
-                                      className='width100'>{formatMessage(LoginMessageDefine.REMEMBER_ME)} </Checkbox>
+                                      className='width100'>{formatMessage(LocalMessageDefine.REMEMBER_ME)} </Checkbox>
                         </Col>
 
                         <Col span={12} className={styles.forgetPassword}>
-                            <Link to='/forgetpassword' >{formatMessage(LoginMessageDefine.FORGET_PASSWORD)} </Link>
+                            <Link to='/forgetpassword' >{formatMessage(LocalMessageDefine.FORGET_PASSWORD)} </Link>
                         </Col>
                     </Row>
                 </FormItem>
@@ -175,7 +175,7 @@ class LoginBoxUI extends React.Component {
                                     disabled={this.disableSignButton(getFieldsError())}
                                     onClick={this.handleSign}
 
-                            >{signing ? formatMessage(LoginMessageDefine.SIGNING_IN_BTN) : formatMessage(LoginMessageDefine.SIGN_IN_BTN)}</Button>
+                            >{signing ? formatMessage(LocalMessageDefine.SIGNING_IN_BTN) : formatMessage(LocalMessageDefine.SIGN_IN_BTN)}</Button>
                         </Col>
                     </Row>
                 </FormItem>

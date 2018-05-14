@@ -4,7 +4,7 @@ import {Button, Col, Form, Input, Popover, Progress, Row, Select} from "antd/lib
 import {injectIntl,intlShape} from 'react-intl'
 import {Link} from 'react-router-dom'
 import styles from './index.less'
-import {LoginMessageDefine} from "../../../locales/message.define";
+import {LocalMessageDefine} from "../../../locales/message.define";
 
 const FormItem = Form.Item;
 const InputGroup = Input.Group
@@ -110,11 +110,11 @@ class RegistrationUI extends React.Component {
                             rules: [
                                 {
                                     required: true,
-                                    message: formatMessage(LoginMessageDefine.TIPS_INPUT_USERNAME),
+                                    message: formatMessage(LocalMessageDefine.TIPS_INPUT_USERNAME),
                                 },
                                 {
                                     type: 'email',
-                                    message: formatMessage(LoginMessageDefine.NOT_VALID_EMAIL),
+                                    message: formatMessage(LocalMessageDefine.NOT_VALID_EMAIL),
                                 },
                             ],
                         })(<Input size="large"
@@ -141,7 +141,7 @@ class RegistrationUI extends React.Component {
                                     {
                                         required: true,
                                         min:6,
-                                        message: formatMessage(LoginMessageDefine.TIPS_INPUT_USERNAME),
+                                        message: formatMessage(LocalMessageDefine.TIPS_INPUT_USERNAME),
                                     },
                                 ],
                             })(<Input size="large"

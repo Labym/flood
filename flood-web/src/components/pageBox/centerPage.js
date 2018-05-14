@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import {injectIntl, intlShape} from 'react-intl'
 import styles from './centerPage.less'
-import {LoginMessageDefine} from "../../../locales/message.define";
+import {LocalMessageDefine} from "../../../locales/message.define";
 
 class CenterPage extends React.Component{
     render(){

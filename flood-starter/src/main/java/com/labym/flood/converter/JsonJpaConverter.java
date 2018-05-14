@@ -3,6 +3,7 @@ package com.labym.flood.converter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.PersistenceException;
@@ -26,6 +27,9 @@ public class JsonJpaConverter<T> implements AttributeConverter<T, String> {
 
     @Override
     public T convertToEntityAttribute(String dbData) {
+        if (StringUtils.isEmpty(dbData)) {
+            return null;
+        }
         try {
             return objectMapper.readValue(dbData,typeReference);
         } catch (IOException e) {

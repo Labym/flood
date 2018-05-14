@@ -2,7 +2,7 @@ import React from 'react';
 import {injectIntl, intlShape} from 'react-intl'
 import {LoginBox} from './container';
 import styles from './style.less'
-import {LoginMessageDefine} from "../../../locales/message.define";
+import {LocalMessageDefine} from "../../../locales/message.define";
 
 class Login extends React.Component{
     render(){
@@ -17,7 +17,7 @@ class Login extends React.Component{
                         <div className={styles.desc}>
                             <b>
 
-                                {formatMessage(LoginMessageDefine.LOGIN_PAGE_TITLE)}
+                                {formatMessage(LocalMessageDefine.LOGIN_PAGE_TITLE)}
 
                             Login
                             </b>
