@@ -18,11 +18,10 @@ import java.util.List;
 @Service
 public class ResourceServiceImpl implements ResourceService {
   private final ResourceRepository resourceRepository;
-  private final ResourceMapper resourceMapper;
+  private  ResourceMapper resourceMapper;
 
-    public ResourceServiceImpl(ResourceRepository resourceRepository, ResourceMapper resourceMapper) {
+    public ResourceServiceImpl(ResourceRepository resourceRepository) {
         this.resourceRepository = resourceRepository;
-        this.resourceMapper = resourceMapper;
     }
 
     @Override
